@@ -2,6 +2,7 @@
   --item-bg-color: #eaeaea;
   --text-default: #212323;
   --page-bg-color: #f8f9fa;
+  --border-color: #21232300;
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -18,9 +19,10 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --item-bg-color: #1a1a1a;
+    --item-bg-color: #0e0e0e;
     --text-default: #dacebe;
-    --page-bg-color: #272624;
+    --page-bg-color: #1f1e1c;
+    --border-color: #dacebe5a;
   }
 
   img.logo {
@@ -39,22 +41,17 @@ a:hover {
 }
 
 body {
+  align-content: stretch;
   margin: 0;
-  display: flex;
-  place-items: center;
+  display: grid;
   min-width: 320px;
   min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
 }
 
 button {
   background-color: var(--item-bg-color);
   border-radius: 8px;
-  border: 1px solid transparent;
+  border: 1px solid var(--border-color);
   color: var(--text-default);
   cursor: pointer;
   font-size: 1em;
@@ -63,9 +60,11 @@ button {
   padding: 0.6em 1.2em;
   transition: border-color 0.25s;
 }
+
 button:hover {
   border-color: #646cff;
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
@@ -75,8 +74,54 @@ button:focus-visible {
   padding: 2em;
 }
 
+form {
+  display: grid;
+  justify-items: center;
+}
+
+form * {
+  display: grid;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+main {
+  display: grid;
+}
+
+main > div {
+  align-items: center;
+  display: grid;
+  padding: 0 0.2vw;
+}
+
+main hr {
+  border: 1px solid var(--text-default);
+  opacity: 40%;
+  width: 80%;
+}
+
 #root {
+  align-items: stretch;
+  display: flex;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 0;
   text-align: center;
+}
+
+.wideScreenOnly {
+  display: none;
+}
+
+@media (min-width: 520px) {
+  main {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .wideScreenOnly {
+    display: block;
+  }
 }
