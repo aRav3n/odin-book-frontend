@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { userSignUp, userLogIn } from "../functions/apiCommunication";
+import ErrorMessage from "../components/errorMessage";
 
 function ConfirmPassword({
   confirmPassword,
@@ -26,17 +28,36 @@ function ConfirmPassword({
   );
 }
 
-export default function LogInSignUp() {
+export default function LogInSignUp({ setUserInfo }) {
   const [alreadyMember, setAlreadyMember] = useState(true);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [email, setEmail] = useState("a@b.com");
+  const [password, setPassword] = useState("123456");
+  const [confirmPassword, setConfirmPassword] = useState("123456");
+  const [errorArray, setErrorArray] = useState(null);
 
   const textSnippet = alreadyMember ? "Log in" : "Sign up";
   const buttonText = alreadyMember ? "Log In" : "Sign Up";
   const switchText = alreadyMember
     ? "create a new account"
     : "log in to your existing account";
+
+  function handleClick() {
+    (async () => {
+      const info = alreadyMember
+        ? await userLogIn(email, password)
+        : await userSignUp(email, password, confirmPassword);
+      if (info.errors) {
+        setErrorArray(info.errors);
+      } else {
+        setUserInfo(info);
+      }
+    })();
+  }
+
+  function handleMemberStatusSwitch() {
+    const newMemberStatus = !alreadyMember;
+    setAlreadyMember(newMemberStatus);
+  }
 
   return (
     <>
@@ -52,23 +73,25 @@ export default function LogInSignUp() {
         </div>
         <div>
           <div>
+            <ErrorMessage errorArray={errorArray} />
             <img
               src="https://cdn.brandfetch.io/idqq2v1naO/theme/dark/logo.svg?c=1dxbfHSJFAPEGdCLU4o5B"
               alt="Odin Project logo"
             />
+
             <form>
-              <label htmlFor="username">
+              <label htmlFor="email">
                 <input
                   required
                   type="text"
-                  name="username"
-                  id="username"
-                  value={username}
+                  name="email"
+                  id="email"
+                  value={email}
                   onChange={(e) => {
-                    setUsername(e.target.value);
+                    setEmail(e.target.value);
                   }}
                 />
-                Username
+                Email
               </label>
               <label htmlFor="password">
                 <input
@@ -88,7 +111,9 @@ export default function LogInSignUp() {
                 setConfirmPassword={setConfirmPassword}
                 alreadyMember={alreadyMember}
               />
-              <button type="button">{buttonText}</button>
+              <button type="button" onClick={handleClick}>
+                {buttonText}
+              </button>
             </form>
             <hr />
             <p>
@@ -96,10 +121,13 @@ export default function LogInSignUp() {
               <a
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={() => {
-                  const newMemberStatus = !alreadyMember;
-                  setAlreadyMember(newMemberStatus);
+                onClick={handleMemberStatusSwitch}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    handleMemberStatusSwitch();
+                  }
                 }}
+                tabIndex="0"
               >
                 {switchText}
               </a>

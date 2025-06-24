@@ -1,8 +1,9 @@
 :root {
-  --item-bg-color: #eaeaea;
-  --text-default: #212323;
-  --page-bg-color: #f8f9fa;
   --border-color: #21232300;
+  --error-color: #f18a8a;
+  --item-bg-color: #eaeaea;
+  --page-bg-color: #f8f9fa;
+  --text-default: #212323;
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -19,10 +20,11 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --item-bg-color: #0e0e0e;
-    --text-default: #dacebe;
-    --page-bg-color: #1f1e1c;
     --border-color: #dacebe5a;
+    --error-color: #923737;
+    --item-bg-color: #0e0e0e;
+    --page-bg-color: #1f1e1c;
+    --text-default: #dacebe;
   }
 
   img.logo {
@@ -37,7 +39,7 @@ a {
   text-decoration: inherit;
 }
 a:hover {
-  color: #535bf2;
+  color: #46cea9;
 }
 
 body {
@@ -72,6 +74,26 @@ button:focus-visible {
 
 .card {
   padding: 2em;
+}
+
+.errorMessage {
+  background-color: var(--error-color);
+  border-radius: 0.25rem;
+  display: grid;
+  gap: 1vh;
+  justify-content: center;
+  margin: 0.5rem auto;
+  padding: 0.5rem 1.75rem;
+  width: fit-content;
+}
+
+.errorMessage * {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  text-align: left;
 }
 
 form {
