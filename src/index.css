@@ -42,6 +42,12 @@ a:hover {
   color: #46cea9;
 }
 
+#about {
+  height: 50vmin;
+  resize: none;
+  width: min(80vmin, 400px);
+}
+
 body {
   align-content: stretch;
   margin: 0;
@@ -98,6 +104,7 @@ li {
 
 form {
   display: grid;
+  gap: 1vh;
   justify-items: center;
 }
 
@@ -110,6 +117,11 @@ h1 {
   line-height: 1.1;
 }
 
+label {
+  display: grid;
+  justify-items: start;
+}
+
 main {
   display: grid;
 }
@@ -117,7 +129,7 @@ main {
 main > div {
   align-items: center;
   display: grid;
-  padding: 0 0.2vw;
+  padding: 0 1vw;
 }
 
 main hr {

@@ -1,4 +1,4 @@
-async function getJsonResponse(urlExtension, method, bodyObject, token) {
+async function getJsonResponse(urlExtension, method, token, bodyObject) {
   const apiUrl = "http://localhost:3000";
 
   const url = `${apiUrl}${urlExtension}`;
@@ -48,7 +48,12 @@ async function userLogIn(email, password) {
   const method = "POST";
   const urlExtension = "/user/login";
 
-  const response = await getJsonResponse(urlExtension, method, bodyObject);
+  const response = await getJsonResponse(
+    urlExtension,
+    method,
+    null,
+    bodyObject
+  );
 
   if (response.error) {
     return response.data;
@@ -62,7 +67,45 @@ async function userSignUp(email, password, confirmPassword) {
   const method = "POST";
   const urlExtension = "/user";
 
-  const response = await getJsonResponse(urlExtension, method, bodyObject);
+  const response = await getJsonResponse(
+    urlExtension,
+    method,
+    null,
+    bodyObject
+  );
+
+  if (response.error) {
+    return response.data;
+  }
+
+  return response;
+}
+
+// profile functions
+async function createProfile(name, about, website, token) {
+  const bodyObject = { name, about, website };
+  const method = "POST";
+  const urlExtension = "/profile";
+
+  const response = await getJsonResponse(
+    urlExtension,
+    method,
+    token,
+    bodyObject
+  );
+
+  if (response.error) {
+    return response.data;
+  }
+
+  return response;
+}
+
+async function readUserProfile(token) {
+  const method = "GET";
+  const urlExtension = "/profile";
+
+  const response = await getJsonResponse(urlExtension, method, token);
 
   if (response.error) {
     return response.data;
@@ -75,4 +118,8 @@ export {
   // user functions
   userLogIn,
   userSignUp,
+
+  // profile functions
+  createProfile,
+  readUserProfile,
 };

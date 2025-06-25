@@ -1,11 +1,19 @@
 import { useEffect, useState } from "react";
-import LogInSignUp from "./logInSignUp";
 import {
   createLocalStorageForUser,
   readLocalStorageForUser,
+  updateLocalStorageForUser,
 } from "../functions/localStorage";
 
-export default function LandingPage({ userInfo, setUserInfo }) {
+import LogInSignUp from "./logInSignUp";
+import ProfileCreationPage from "./profileCreation";
+
+export default function LandingPage({
+  userInfo,
+  setUserInfo,
+  profileObject,
+  setProfileObject,
+}) {
   const [loggedIn, setLoggedIn] = useState(false);
 
   // setLoggedIn based on userInfo
@@ -19,11 +27,24 @@ export default function LandingPage({ userInfo, setUserInfo }) {
         setLoggedIn(true);
         setUserInfo(userObject);
       }
+    } else if (userInfo.profile && loggedIn) {
+      console.log("updating user info!", userInfo);
+      updateLocalStorageForUser(userInfo);
     }
   }, [userInfo]);
 
   if (!loggedIn) {
-    return <LogInSignUp setUserInfo={setUserInfo} />;
+    return (
+      <LogInSignUp
+        setUserInfo={setUserInfo}
+        setProfileObject={setProfileObject}
+      />
+    );
+  }
+  if (!profileObject) {
+    return (
+      <ProfileCreationPage userInfo={userInfo} setProfileObject={setProfileObject} />
+    );
   }
 
   return (

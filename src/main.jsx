@@ -7,6 +7,7 @@ import ErrorPage from "./pages/errorPage";
 
 function TopLevel() {
   const [userInfo, setUserInfo] = useState(null);
+  const [profileObject, setProfileObject] = useState(null);
 
   const router = createBrowserRouter([
     {
@@ -15,6 +16,8 @@ function TopLevel() {
         <LandingPage
           userInfo={userInfo}
           setUserInfo={setUserInfo}
+          profileObject={profileObject}
+          setProfileObject={setProfileObject}
         />
       ),
       errorElement: <ErrorPage />,
