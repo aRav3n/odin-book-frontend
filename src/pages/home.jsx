@@ -1,9 +1,19 @@
 import { useEffect, useState } from "react";
 import {
+  // user functions
   createLocalStorageForUser,
   readLocalStorageForUser,
   updateLocalStorageForUser,
+  deleteLocalStorageForUser,
+
+  // profile functions
+  createLocalProfileStorage,
+  readLocalProfileStorage,
+  updateLocalProfileStorage,
+  deleteLocalProfileStorage,
 } from "../functions/localStorage";
+
+import { readUserProfile } from "../functions/apiCommunication";
 
 import LogInSignUp from "./logInSignUp";
 import ProfileCreationPage from "./profileCreation";
@@ -16,22 +26,37 @@ export default function LandingPage({
 }) {
   const [loggedIn, setLoggedIn] = useState(false);
 
-  // setLoggedIn based on userInfo
+  // actions to be performed when userInfo changes
   useEffect(() => {
     if (userInfo && !loggedIn) {
+      // first search for an existing user profile and set it to state if it exists
+      (async () => {
+        const profile = await readUserProfile(userInfo.token);
+        if (profile) {
+          createLocalProfileStorage(profile);
+          setProfileObject(profile);
+        }
+      })();
+
+      // then set user in state and change loggedIn to true
       createLocalStorageForUser(userInfo);
       setLoggedIn(true);
     } else if (!userInfo && !loggedIn) {
+      // search local storage for an existing user object and set it to state if it exists
       const userObject = readLocalStorageForUser();
       if (userObject) {
-        setLoggedIn(true);
         setUserInfo(userObject);
       }
-    } else if (userInfo.profile && loggedIn) {
-      console.log("updating user info!", userInfo);
-      updateLocalStorageForUser(userInfo);
+    } else if (!userInfo && loggedIn) {
+      // remove user and profile from local storage then set loggedIn to false
+      deleteLocalProfileStorage();
+      deleteLocalStorageForUser();
+      setLoggedIn(false);
     }
   }, [userInfo]);
+
+  // actions to be performed when profileObject changes
+  useEffect(() => {}, [profileObject]);
 
   if (!loggedIn) {
     return (
@@ -43,7 +68,10 @@ export default function LandingPage({
   }
   if (!profileObject) {
     return (
-      <ProfileCreationPage userInfo={userInfo} setProfileObject={setProfileObject} />
+      <ProfileCreationPage
+        userInfo={userInfo}
+        setProfileObject={setProfileObject}
+      />
     );
   }
 
