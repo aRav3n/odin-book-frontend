@@ -102,6 +102,12 @@ li {
   text-align: left;
 }
 
+footer,
+header {
+  background-color: var(--item-bg-color);
+  padding: 0.1rem 0;
+}
+
 form {
   display: grid;
   gap: 1vh;
@@ -139,11 +145,14 @@ main hr {
 }
 
 #root {
-  align-items: stretch;
-  display: flex;
+  align-content: space-between;
+  display: grid;
   margin: 0 auto;
   padding: 0;
   text-align: center;
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100vw;
 }
 
 .wideScreenOnly {

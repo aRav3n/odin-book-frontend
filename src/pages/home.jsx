@@ -30,6 +30,7 @@ export default function LandingPage({
   useEffect(() => {
     if (userInfo && !loggedIn) {
       // first search for an existing user profile and set it to state if it exists
+      const localProfileObject = readLocalProfileStorage();
       (async () => {
         const profile = await readUserProfile(userInfo.token);
         if (profile) {
