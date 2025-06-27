@@ -1,18 +1,19 @@
 :root {
   --border-color: #21232300;
   --error-color: #f18a8a;
+  --focus-color: #646cff;
   --item-bg-color: #eaeaea;
   --page-bg-color: #f8f9fa;
   --text-default: #212323;
+
+  background-color: var(--page-bg-color);
+  color: var(--text-default);
+  color-scheme: light dark;
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-synthesis: none;
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  background-color: var(--page-bg-color);
-  color: var(--text-default);
-
-  font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -34,10 +35,23 @@
 }
 
 a {
+  align-items: center;
+  display: flex;
   font-weight: 500;
-  color: #646cff;
+  gap: 0.5rem;
+  color: var(--focus-color);
   text-decoration: inherit;
 }
+
+a:focus,
+a:focus-visible,
+button:focus,
+button:focus-visible,
+button:hover {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--focus-color);
+}
+
 a:hover {
   color: #46cea9;
 }
@@ -69,15 +83,6 @@ button {
   transition: border-color 0.25s;
 }
 
-button:hover {
-  border-color: #646cff;
-}
-
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
 .card {
   padding: 2em;
 }
@@ -102,8 +107,7 @@ li {
   text-align: left;
 }
 
-footer,
-header {
+footer {
   background-color: var(--item-bg-color);
   padding: 0.1rem 0;
 }
@@ -121,6 +125,35 @@ form * {
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+}
+
+header {
+  align-content: center;
+  align-items: center;
+  background-color: var(--item-bg-color);
+  display: flex;
+  justify-content: space-between;
+  justify-items: center;
+  padding: 0.25rem 0.5rem;
+}
+
+header > button {
+  align-items: center;
+  border-color: #00000000;
+  border-radius: 0.2rem;
+  display: flex;
+  gap: 0.25rem;
+  padding: 0.1rem 0.2rem;
+}
+
+header img {
+  display: grid;
+  height: 2rem;
+  width: auto;
+}
+
+.icon {
+  color: var(--text-default);
 }
 
 label {
