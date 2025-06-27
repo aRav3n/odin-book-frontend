@@ -1,6 +1,7 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { SquarePlus, UserCog } from "lucide-react";
+import TopLogo from "./top_logo";
 
 export default function Header({ userInfo, profileObject, setProfileObject }) {
   if (!userInfo) {
@@ -20,18 +21,24 @@ export default function Header({ userInfo, profileObject, setProfileObject }) {
       </header>
     );
   }
+
+  const navigate = useNavigate();
   return (
     <header>
-      <div>
-        <Link to="/">
-          <img
-            src="https://cdn.brandfetch.io/idqq2v1naO/theme/dark/logo.svg?c=1dxbfHSJFAPEGdCLU4o5B"
-            alt="Odin Project logo"
-          />{" "}
-          Home
-        </Link>
-      </div>
-      <button type="button">
+      <button
+        type="button"
+        onClick={() => {
+          navigate("/");
+        }}
+      >
+        <TopLogo /> Home
+      </button>
+      <button
+        type="button"
+        onClick={() => {
+          navigate("/newPost");
+        }}
+      >
         <SquarePlus className="icon" /> New Post
       </button>
       <button type="button">

@@ -1,6 +1,21 @@
 import { useState } from "react";
 import { userSignUp, userLogIn } from "../functions/apiCommunication";
+import {
+  // user functions
+  createLocalStorageForUser,
+  readLocalStorageForUser,
+  updateLocalStorageForUser,
+  deleteLocalStorageForUser,
+
+  // profile functions
+  createLocalProfileStorage,
+  readLocalProfileStorage,
+  updateLocalProfileStorage,
+  deleteLocalProfileStorage,
+} from "../functions/localStorage";
+
 import ErrorMessage from "../components/errorMessage";
+import TopLogo from "../components/top_logo";
 
 function ConfirmPassword({
   confirmPassword,
@@ -38,8 +53,8 @@ export default function LogInSignUp({ setUserInfo }) {
   const textSnippet = alreadyMember ? "Log in" : "Sign up";
   const buttonText = alreadyMember ? "Log In" : "Sign Up";
   const switchText = alreadyMember
-    ? "create a new account"
-    : "log in to your existing account";
+    ? " create a new account."
+    : " log in to your existing account.";
 
   function handleClick() {
     (async () => {
@@ -49,6 +64,7 @@ export default function LogInSignUp({ setUserInfo }) {
       if (info.errors) {
         setErrorArray(info.errors);
       } else {
+        createLocalStorageForUser(info);
         setUserInfo(info);
       }
     })();
@@ -74,10 +90,7 @@ export default function LogInSignUp({ setUserInfo }) {
         <div>
           <div>
             <ErrorMessage errorArray={errorArray} />
-            <img
-              src="https://cdn.brandfetch.io/idqq2v1naO/theme/dark/logo.svg?c=1dxbfHSJFAPEGdCLU4o5B"
-              alt="Odin Project logo"
-            />
+            <TopLogo />
 
             <form>
               <label htmlFor="email">
@@ -117,7 +130,7 @@ export default function LogInSignUp({ setUserInfo }) {
             </form>
             <hr />
             <p>
-              Or{" "}
+              Or
               <a
                 target="_blank"
                 rel="noopener noreferrer"
@@ -131,7 +144,6 @@ export default function LogInSignUp({ setUserInfo }) {
               >
                 {switchText}
               </a>
-              .
             </p>
           </div>
         </div>

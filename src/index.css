@@ -177,6 +177,12 @@ main hr {
   width: 80%;
 }
 
+p {
+  display: flex;
+  gap: 0.25rem;
+  justify-content: center;
+}
+
 #root {
   align-content: space-between;
   display: grid;
