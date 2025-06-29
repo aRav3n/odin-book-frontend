@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { SquarePlus, UserCog } from "lucide-react";
 import TopLogo from "./top_logo";
 
-export default function Header({ userInfo, profileObject, setProfileObject }) {
-  if (!userInfo) {
+export default function Header({ user, profile, setProfile }) {
+  if (!user) {
     return (
       <header>
         <div></div>
@@ -12,11 +12,11 @@ export default function Header({ userInfo, profileObject, setProfileObject }) {
         <div></div>
       </header>
     );
-  } else if (!profileObject) {
+  } else if (!profile) {
     return (
       <header>
         <div></div>
-        <div>Now make your profile</div>
+        <div>Now you can complete your profile</div>
         <div></div>
       </header>
     );

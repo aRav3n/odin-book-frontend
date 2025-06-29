@@ -18,7 +18,8 @@ export default function ProfileCreationPage({ user, setProfile }) {
         name,
         about,
         website,
-        user.token
+        user.token,
+        setProfile
       );
 
       if (response.errors) {
@@ -27,10 +28,7 @@ export default function ProfileCreationPage({ user, setProfile }) {
           response.errors[0].message ===
           "A profile for this account already exists"
         ) {
-          const profile = await readProfileOfUser(
-            user.token,
-            setProfile
-          );
+          const profile = await readProfileOfUser(user.token, setProfile);
 
           if (profile.errors) {
             setErrorArray(profile.errors);
