@@ -1,51 +1,54 @@
+// internal use functions
+function createLocalStorage(key, object, setState) {
+  if (!localStorage.getItem(key)) {
+    localStorage.setItem(key, JSON.stringify(object));
+  }
+  setState(object);
+}
+function readLocalStorage(key, setState) {
+  const item = JSON.parse(localStorage.getItem(key)) || null;
+  if (item) {
+    setState(item);
+  }
+}
+function updateLocalStorage(key, newObject, setState) {
+  if (localStorage.getItem(key)) {
+    localStorage.removeItem(key);
+    localStorage.setItem(key, JSON.stringify(newObject));
+    setState(newObject);
+  }
+}
+function deleteLocalStorage(key, setState) {
+  localStorage.removeItem(key);
+  setState(null);
+}
+
 // user functions
-const localUserKey = "userObject";
-
-export function createLocalStorageForUser(userObject) {
-  if (!localStorage.getItem(localUserKey)) {
-    localStorage.setItem(localUserKey, JSON.stringify(userObject));
-    return;
-  }
+const userKey = "userObject";
+export function createUserLocalStorage(userObject, setState) {
+  createLocalStorage(userKey, userObject, setState);
 }
-
-export function readLocalStorageForUser() {
-  return JSON.parse(localStorage.getItem(localUserKey)) || null;
+export function readUserLocalStorage(setState) {
+  readLocalStorage(userKey, setState);
 }
-
-export function updateLocalStorageForUser(newUserObject) {
-  if (localStorage.getItem(localUserKey)) {
-    localStorage.removeItem(localUserKey);
-    localStorage.setItem(localUserKey, JSON.stringify(newUserObject));
-    return;
-  }
+export function updateUserLocalStorage(newUserObject, setState) {
+  updateLocalStorage(userKey, newUserObject, setState);
 }
-
-export function deleteLocalStorageForUser() {
-  localStorage.removeItem(localUserKey);
+export function deleteUserLocalStorage(setState) {
+  deleteLocalStorage(userKey, setState);
 }
 
 // profile functions
-const localProfileKey = "profileObject";
-
-export function createLocalProfileStorage(profileObject) {
-  if (!localStorage.getItem(localProfileKey)) {
-    localStorage.setItem(localProfileKey, JSON.stringify(profileObject));
-    return true;
-  }
+const profileKey = "profileObject";
+export function createProfileLocalStorage(profileObject, setState) {
+  createLocalStorage(profileKey, profileObject, setState);
 }
-
-export function readLocalProfileStorage() {
-  return JSON.parse(localStorage.getItem(localProfileKey)) || null;
+export function readProfileLocalStorage(setState) {
+  readLocalStorage(profileKey, setState);
 }
-
-export function updateLocalProfileStorage(newProfileObject) {
-  if (localStorage.getItem(localProfileKey)) {
-    localStorage.removeItem(localProfileKey);
-    localStorage.setItem(localProfileKey, JSON.stringify(newProfileObject));
-    return;
-  }
+export function updateProfileLocalStorage(newProfileObject, setState) {
+  updateLocalStorage(profileKey, newProfileObject, setState);
 }
-
-export function deleteLocalProfileStorage() {
-  localStorage.removeItem(localProfileKey);
+export function deleteProfileLocalStorage(setState) {
+  deleteLocalStorage(profileKey, setState);
 }

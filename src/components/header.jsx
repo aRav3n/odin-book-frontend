@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { SquarePlus, UserCog } from "lucide-react";
 import TopLogo from "./top_logo";

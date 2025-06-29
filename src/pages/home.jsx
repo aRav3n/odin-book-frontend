@@ -1,64 +1,41 @@
 import { useEffect, useState } from "react";
 import {
-  // user functions
-  createLocalStorageForUser,
-  readLocalStorageForUser,
-  updateLocalStorageForUser,
-  deleteLocalStorageForUser,
-
-  // profile functions
-  createLocalProfileStorage,
-  readLocalProfileStorage,
-  updateLocalProfileStorage,
-  deleteLocalProfileStorage,
+  deleteProfileLocalStorage,
+  deleteUserLocalStorage,
 } from "../functions/localStorage";
-
-import { readUserProfile } from "../functions/apiCommunication";
 
 import LogInSignUp from "./logInSignUp";
 import ProfileCreationPage from "./profileCreation";
 
-export default function LandingPage({
-  userInfo,
-  setUserInfo,
-  profileObject,
-  setProfileObject,
-}) {
+export default function LandingPage({ user, setUser, profile, setProfile }) {
   const [loggedIn, setLoggedIn] = useState(false);
 
-  // actions to be performed when userInfo changes
+  // actions to be performed when user changes
   useEffect(() => {
-    if (userInfo) {
+    if (user) {
       setLoggedIn(true);
-    } else if (!userInfo && loggedIn) {
+    } else if (!user && loggedIn) {
       // remove user and profile from local storage then set loggedIn to false
-      deleteLocalProfileStorage();
-      deleteLocalStorageForUser();
-      setProfileObject(null);
-      setUserInfo(null);
-      setLoggedIn(false);
+      // deleteLocalProfileStorage();
+      // deleteLocalStorageForUser();
+      // setProfile(null);
+      // setUser(null);
+      // setLoggedIn(false);
     }
-  }, [userInfo]);
+  }, [user]);
 
-  if (!userInfo) {
+  if (!user) {
     return (
-      <LogInSignUp
-        setUserInfo={setUserInfo}
-        setProfileObject={setProfileObject}
-      />
+      <LogInSignUp user={user} setUser={setUser} setProfile={setProfile} />
     );
-  } else if (!profileObject) {
-    return (
-      <ProfileCreationPage
-        userInfo={userInfo}
-        setProfileObject={setProfileObject}
-      />
-    );
+  }
+  if (user && !profile) {
+    return <ProfileCreationPage user={user} setProfile={setProfile} />;
   }
 
   return (
     <>
-      <h1>To do</h1>
+      <h1>Home page</h1>
     </>
   );
 }

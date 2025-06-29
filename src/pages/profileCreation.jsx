@@ -1,9 +1,12 @@
 import { useState } from "react";
-import { createProfile, readUserProfile } from "../functions/apiCommunication";
+import {
+  createProfile,
+  readProfileOfUser,
+} from "../functions/apiCommunication";
 
 import ErrorMessage from "../components/errorMessage";
 
-export default function ProfileCreationPage({ userInfo, setProfileObject }) {
+export default function ProfileCreationPage({ user, setProfile }) {
   const [name, setName] = useState("");
   const [website, setWebsite] = useState("");
   const [about, setAbout] = useState("");
@@ -15,26 +18,28 @@ export default function ProfileCreationPage({ userInfo, setProfileObject }) {
         name,
         about,
         website,
-        userInfo.token
+        user.token
       );
 
       if (response.errors) {
+        // if the profile already exists get it then set it in state and local storage
         if (
           response.errors[0].message ===
           "A profile for this account already exists"
         ) {
-          const profile = await readUserProfile(userInfo.token);
+          const profile = await readProfileOfUser(
+            user.token,
+            setProfile
+          );
 
           if (profile.errors) {
             setErrorArray(profile.errors);
-          } else {
-            setProfileObject(profile);
           }
         } else {
           setErrorArray(response.errors);
         }
-      } else {
-        setProfileObject(response);
+
+        // if the profile didn't already exist set it in state and local storage
       }
       setName("");
       setAbout("");

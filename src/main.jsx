@@ -1,11 +1,11 @@
 import { StrictMode, useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
+
 import {
-  createLocalProfileStorage,
-  readLocalProfileStorage,
+  readProfileLocalStorage,
+  readUserLocalStorage,
 } from "./functions/localStorage";
-import { readUserProfile } from "./functions/apiCommunication";
 
 import "./index.css";
 import LandingPage from "./pages/home";
@@ -14,14 +14,10 @@ import Footer from "./components/footer";
 import Header from "./components/header";
 import NewPost from "./pages/newPost";
 
-function Layout({ userInfo, profileObject, setProfileObject }) {
+function Layout({ user, profile, setProfile }) {
   return (
     <>
-      <Header
-        userInfo={userInfo}
-        profileObject={profileObject}
-        setProfileObject={setProfileObject}
-      />
+      <Header user={user} profile={profile} setProfile={setProfile} />
       <Outlet />
       <Footer />
     </>
@@ -29,57 +25,32 @@ function Layout({ userInfo, profileObject, setProfileObject }) {
 }
 
 function TopLevel() {
-  const [userInfo, setUserInfo] = useState(null);
-  const [profileObject, setProfileObject] = useState(null);
+  const [user, setUser] = useState(null);
+  const [profile, setProfile] = useState(null);
 
   // search local storage for user and profile on page load
   useEffect(() => {
-    if (!profileObject) {
-      const profile = readLocalProfileStorage();
-      if (profile) {
-        setProfileObject(profile);
-      }
+    if (!profile) {
+      readProfileLocalStorage(setProfile);
     }
-    if (!userInfo) {
-      const user = readLocalProfileStorage();
-      if (user) {
-        setUserInfo(user);
-      }
+    if (!user) {
+      readUserLocalStorage(setUser);
     }
   }, []);
-
-  // once user logs in get their profile, put it in local storage and state
-  useEffect(() => {
-    if (userInfo && !profileObject) {
-      (async () => {
-        const profile = await readUserProfile(userInfo.token);
-        if (profile) {
-          createLocalProfileStorage(profile);
-          setProfileObject(profile);
-        }
-      })();
-    }
-  }, [userInfo]);
 
   const router = createBrowserRouter([
     {
       path: "/",
-      element: (
-        <Layout
-          userInfo={userInfo}
-          profileObject={profileObject}
-          setProfileObject={setProfileObject}
-        />
-      ),
+      element: <Layout user={user} profile={profile} setProfile={setProfile} />,
       children: [
         {
           index: true,
           element: (
             <LandingPage
-              userInfo={userInfo}
-              setUserInfo={setUserInfo}
-              profileObject={profileObject}
-              setProfileObject={setProfileObject}
+              user={user}
+              setUser={setUser}
+              profile={profile}
+              setProfile={setProfile}
             />
           ),
         },

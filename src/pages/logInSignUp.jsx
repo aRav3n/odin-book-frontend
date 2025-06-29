@@ -1,18 +1,9 @@
-import { useState } from "react";
-import { userSignUp, userLogIn } from "../functions/apiCommunication";
+import { useEffect, useState } from "react";
 import {
-  // user functions
-  createLocalStorageForUser,
-  readLocalStorageForUser,
-  updateLocalStorageForUser,
-  deleteLocalStorageForUser,
-
-  // profile functions
-  createLocalProfileStorage,
-  readLocalProfileStorage,
-  updateLocalProfileStorage,
-  deleteLocalProfileStorage,
-} from "../functions/localStorage";
+  readProfileOfUser,
+  signupUser,
+  logUserIn,
+} from "../functions/apiCommunication";
 
 import ErrorMessage from "../components/errorMessage";
 import TopLogo from "../components/top_logo";
@@ -43,12 +34,13 @@ function ConfirmPassword({
   );
 }
 
-export default function LogInSignUp({ setUserInfo }) {
-  const [alreadyMember, setAlreadyMember] = useState(true);
-  const [email, setEmail] = useState("a@b.com");
+export default function LogInSignUp({ user, setUser, setProfile }) {
+  const [email, setEmail] = useState("c@b.com");
   const [password, setPassword] = useState("123456");
   const [confirmPassword, setConfirmPassword] = useState("123456");
   const [errorArray, setErrorArray] = useState(null);
+
+  const [alreadyMember, setAlreadyMember] = useState(true);
 
   const textSnippet = alreadyMember ? "Log in" : "Sign up";
   const buttonText = alreadyMember ? "Log In" : "Sign Up";
@@ -56,16 +48,24 @@ export default function LogInSignUp({ setUserInfo }) {
     ? " create a new account."
     : " log in to your existing account.";
 
+  useEffect(() => {
+    if (user) {
+      console.log("user set");
+    }
+  }, [user]);
+
   function handleClick() {
     (async () => {
+      // call correct function based on alreadyMember
       const info = alreadyMember
-        ? await userLogIn(email, password)
-        : await userSignUp(email, password, confirmPassword);
+        ? await logUserIn(email, password, setUser)
+        : await signupUser(email, password, confirmPassword, setUser);
+
+      // if there are errors display them
       if (info.errors) {
         setErrorArray(info.errors);
       } else {
-        createLocalStorageForUser(info);
-        setUserInfo(info);
+        await readProfileOfUser(info.token, setProfile);
       }
     })();
   }

@@ -1,3 +1,9 @@
+// apiCommunication enters object into local storage if successful and applicable
+import {
+  createProfileLocalStorage,
+  createUserLocalStorage,
+} from "./localStorage";
+
 async function getJsonResponse(urlExtension, method, token, bodyObject) {
   const apiUrl = "http://localhost:3000";
 
@@ -43,7 +49,7 @@ async function getJsonResponse(urlExtension, method, token, bodyObject) {
 }
 
 // user functions
-async function userLogIn(email, password) {
+async function logUserIn(email, password, setState) {
   const bodyObject = { email, password };
   const method = "POST";
   const urlExtension = "/user/login";
@@ -57,12 +63,14 @@ async function userLogIn(email, password) {
 
   if (response.error) {
     return response.data;
+  } else {
+    createUserLocalStorage(response, setState);
   }
 
   return response;
 }
 
-async function userSignUp(email, password, confirmPassword) {
+async function signupUser(email, password, confirmPassword, setState) {
   const bodyObject = { email, password, confirmPassword };
   const method = "POST";
   const urlExtension = "/user";
@@ -78,11 +86,12 @@ async function userSignUp(email, password, confirmPassword) {
     return response.data;
   }
 
+  createUserLocalStorage(response, setState);
   return response;
 }
 
 // profile functions
-async function createProfile(name, about, website, token) {
+async function createProfile(name, about, website, token, setState) {
   const bodyObject = { name, about, website };
   const method = "POST";
   const urlExtension = "/profile";
@@ -98,10 +107,11 @@ async function createProfile(name, about, website, token) {
     return response.data;
   }
 
+  createProfileLocalStorage(response, setState);
   return response;
 }
 
-async function readUserProfile(token) {
+async function readProfileOfUser(token, setState) {
   const method = "GET";
   const urlExtension = "/profile";
 
@@ -111,15 +121,16 @@ async function readUserProfile(token) {
     return response.data;
   }
 
+  createProfileLocalStorage(response, setState);
   return response;
 }
 
 export {
   // user functions
-  userLogIn,
-  userSignUp,
+  logUserIn,
+  signupUser,
 
   // profile functions
   createProfile,
-  readUserProfile,
+  readProfileOfUser,
 };

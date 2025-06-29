@@ -165,6 +165,10 @@ main {
   display: grid;
 }
 
+main.singleColumn {
+  grid-template-columns: 1fr;
+}
+
 main > div {
   align-items: center;
   display: grid;
@@ -181,6 +185,15 @@ p {
   display: flex;
   gap: 0.25rem;
   justify-content: center;
+}
+
+textarea {
+  resize: none;
+}
+
+textarea.post {
+  height: min(500px, 50vh);
+  width: min(700px, 80vw);
 }
 
 #root {
