@@ -56,7 +56,7 @@ function TopLevel() {
         },
         {
           path: "newPost",
-          element: <NewPost />,
+          element: <NewPost profile={profile} />,
         },
       ],
       errorElement: <ErrorPage />,
