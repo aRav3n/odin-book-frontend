@@ -199,8 +199,11 @@ label {
 }
 
 main {
+  align-items: start;
   display: grid;
   flex-grow: 1;
+  gap: 1vh;
+  padding: 2vh 0;
 }
 
 main.singleColumn {
@@ -264,7 +267,7 @@ textarea {
 
 textarea.post {
   height: min(500px, 50vh);
-  width: min(700px, 80vw);
+  width: min(700px, 80%);
 }
 
 #root {

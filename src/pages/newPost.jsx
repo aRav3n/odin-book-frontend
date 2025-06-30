@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function NewPost({ profile }) {
+import ErrorMessage from "../components/errorMessage";
+import { createPost } from "../functions/apiCommunication";
+
+export default function NewPost({ profile, user }) {
+  const [errorArray, setErrorArray] = useState(null);
   const [text, setText] = useState("");
   const navigate = useNavigate();
 
@@ -11,10 +15,25 @@ export default function NewPost({ profile }) {
     }
   });
 
-  function handleClick() {}
+  function handleClick() {
+    (async () => {
+      if (!text) {
+        setErrorArray([{ message: "Cannot submit a blank post" }]);
+      } else {
+        const response = await createPost(text, user.token, profile.id);
+
+        if (response.errors) {
+          setErrorArray(response.errors);
+        } else {
+          navigate("/");
+        }
+      }
+    })();
+  }
 
   return (
     <main className="singleColumn">
+      <ErrorMessage errorArray={errorArray} />
       <form>
         <textarea
           className="post"
@@ -25,7 +44,9 @@ export default function NewPost({ profile }) {
             setText(e.target.value);
           }}
         ></textarea>
-        <button type="button">Submit Post</button>
+        <button type="button" onClick={handleClick}>
+          Submit Post
+        </button>
       </form>
     </main>
   );

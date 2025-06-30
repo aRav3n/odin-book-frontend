@@ -124,6 +124,26 @@ async function readProfileOfUser(token, setState) {
   return response;
 }
 
+// post functions
+async function createPost(text, token, profileId) {
+  const method = "POST";
+  const urlExtension = `/post/${profileId}`;
+  const bodyObject = { text };
+
+  const response = await getJsonResponse(
+    urlExtension,
+    method,
+    token,
+    bodyObject
+  );
+
+  if (response.error) {
+    return response.data;
+  }
+
+  return response;
+}
+
 export {
   // user functions
   logUserIn,
@@ -132,4 +152,7 @@ export {
   // profile functions
   createProfile,
   readProfileOfUser,
+
+  // post functions
+  createPost,
 };
