@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { CirclePlus } from "lucide-react";
+import { CirclePlus, Clock, Contact, User } from "lucide-react";
 
 function ToggleDisplayButton({ showMenu, setShowMenu, useToggle }) {
   if (!useToggle) {
@@ -15,6 +15,53 @@ function ToggleDisplayButton({ showMenu, setShowMenu, useToggle }) {
     <button type="button" onClick={handleClick} className="toggle">
       <CirclePlus color="#000000" />
     </button>
+  );
+}
+
+function handleSidebarButtonClick(useToggle, setShowMenu) {}
+
+function SidebarButton({ useToggle, setShowMenu, text, LucideIcon }) {
+  return (
+    <>
+      <button type="button" className="sidebarButton">
+        <LucideIcon color="#000000" />
+        {text}
+      </button>
+      <hr />
+    </>
+  );
+}
+
+function FriendPostsButton({ useToggle, setShowMenu }) {
+  return (
+    <SidebarButton
+      useToggle={useToggle}
+      setShowMenu={setShowMenu}
+      text={"Friends Posts"}
+      LucideIcon={Contact}
+    />
+  );
+}
+
+function MyProfileButton({ useToggle, setShowMenu }) {
+  return (
+    <SidebarButton
+      useToggle={useToggle}
+      setShowMenu={setShowMenu}
+      text={"My Profile"}
+      LucideIcon={User}
+    />
+  );
+}
+
+function RecentPostsButton({ useToggle, setShowMenu }) {
+  return (
+    <SidebarButton
+      useToggle={useToggle}
+      setShowMenu={setShowMenu}
+      text={"Recent Posts"}
+      LucideIcon={Clock}
+    />
   );
 }
 
@@ -69,6 +116,9 @@ export default function SideMenu() {
         setShowMenu={setShowMenu}
         useToggle={useToggle}
       />
+      <MyProfileButton useToggle={useToggle} setShowMenu={setShowMenu} />
+      <RecentPostsButton useToggle={useToggle} setShowMenu={setShowMenu} />
+      <FriendPostsButton useToggle={useToggle} setShowMenu={setShowMenu} />
     </nav>
   );
 }
