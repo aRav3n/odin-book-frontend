@@ -5,8 +5,8 @@
   --item-bg-color: #eaeaea;
   --page-bg-color: #f8f9fa;
   --text-default: #212323;
-  --nav-negative: max(-80vw, -300px);
-  --nav-positive: min(80vw, 300px);
+  --nav-negative: max(-80vw, -200px);
+  --nav-positive: min(80vw, 200px);
 
   background-color: var(--page-bg-color);
   color: var(--text-default);
@@ -181,6 +181,7 @@ label {
 
 main {
   display: grid;
+  flex-grow: 1;
 }
 
 main.singleColumn {
@@ -255,6 +256,7 @@ textarea.post {
 
 #root > div {
   align-self: stretch;
+  display: flex;
   flex-grow: 1;
   position: relative;
 }
