@@ -13,12 +13,16 @@ import ErrorPage from "./pages/errorPage";
 import Footer from "./components/footer";
 import Header from "./components/header";
 import NewPost from "./pages/newPost";
+import SideMenu from "./components/sidebar";
 
 function Layout({ user, profile, setProfile }) {
   return (
     <>
       <Header user={user} profile={profile} setProfile={setProfile} />
-      <Outlet />
+      <div>
+        <SideMenu profile={profile} />
+        <Outlet />
+      </div>
       <Footer />
     </>
   );
@@ -56,7 +60,7 @@ function TopLevel() {
         },
         {
           path: "newPost",
-          element: <NewPost profile={profile} />,
+          element: <NewPost profile={profile} user={user} />,
         },
       ],
       errorElement: <ErrorPage />,

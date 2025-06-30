@@ -18,13 +18,23 @@ function ToggleDisplayButton({ showMenu, setShowMenu, useToggle }) {
   );
 }
 
-function handleSidebarButtonClick(useToggle, setShowMenu) {}
+function SidebarButton({ useToggle, showMenu, setShowMenu, text, LucideIcon }) {
+  const [tabIndex, setTabIndex] = useState("-1");
 
-function SidebarButton({ useToggle, setShowMenu, text, LucideIcon }) {
+  useEffect(() => {
+    if (showMenu) {
+      setTabIndex("0");
+    } else {
+      setTabIndex("-1");
+    }
+  });
+
+  function handleSidebarButtonClick() {}
+
   return (
     <>
-      <button type="button" className="sidebarButton">
-        <LucideIcon color="#000000" />
+      <button type="button" className="sidebarButton" tabIndex={tabIndex}>
+        <LucideIcon />
         {text}
       </button>
       <hr />
@@ -32,10 +42,11 @@ function SidebarButton({ useToggle, setShowMenu, text, LucideIcon }) {
   );
 }
 
-function FriendPostsButton({ useToggle, setShowMenu }) {
+function FriendPostsButton({ useToggle, showMenu, setShowMenu }) {
   return (
     <SidebarButton
       useToggle={useToggle}
+      showMenu={showMenu}
       setShowMenu={setShowMenu}
       text={"Friends Posts"}
       LucideIcon={Contact}
@@ -43,10 +54,11 @@ function FriendPostsButton({ useToggle, setShowMenu }) {
   );
 }
 
-function MyProfileButton({ useToggle, setShowMenu }) {
+function MyProfileButton({ useToggle, showMenu, setShowMenu }) {
   return (
     <SidebarButton
       useToggle={useToggle}
+      showMenu={showMenu}
       setShowMenu={setShowMenu}
       text={"My Profile"}
       LucideIcon={User}
@@ -54,10 +66,11 @@ function MyProfileButton({ useToggle, setShowMenu }) {
   );
 }
 
-function RecentPostsButton({ useToggle, setShowMenu }) {
+function RecentPostsButton({ useToggle, showMenu, setShowMenu }) {
   return (
     <SidebarButton
       useToggle={useToggle}
+      showMenu={showMenu}
       setShowMenu={setShowMenu}
       text={"Recent Posts"}
       LucideIcon={Clock}
@@ -65,7 +78,10 @@ function RecentPostsButton({ useToggle, setShowMenu }) {
   );
 }
 
-export default function SideMenu() {
+export default function SideMenu({ profile }) {
+  if (!profile) {
+    return null;
+  }
   const [showMenu, setShowMenu] = useState(false);
   const [useToggle, setUseToggle] = useState(true);
   const [menuClass, setMenuClass] = useState("hidden toggled");
@@ -116,9 +132,21 @@ export default function SideMenu() {
         setShowMenu={setShowMenu}
         useToggle={useToggle}
       />
-      <MyProfileButton useToggle={useToggle} setShowMenu={setShowMenu} />
-      <RecentPostsButton useToggle={useToggle} setShowMenu={setShowMenu} />
-      <FriendPostsButton useToggle={useToggle} setShowMenu={setShowMenu} />
+      <MyProfileButton
+        useToggle={useToggle}
+        showMenu={showMenu}
+        setShowMenu={setShowMenu}
+      />
+      <RecentPostsButton
+        useToggle={useToggle}
+        showMenu={showMenu}
+        setShowMenu={setShowMenu}
+      />
+      <FriendPostsButton
+        useToggle={useToggle}
+        showMenu={showMenu}
+        setShowMenu={setShowMenu}
+      />
     </nav>
   );
 }

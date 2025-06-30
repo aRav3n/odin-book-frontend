@@ -6,7 +6,6 @@ import {
 
 import LogInSignUp from "./logInSignUp";
 import ProfileCreationPage from "./profileCreation";
-import SideMenu from "../components/sidebar";
 
 export default function LandingPage({ user, setUser, profile, setProfile }) {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -36,12 +35,9 @@ export default function LandingPage({ user, setUser, profile, setProfile }) {
 
   return (
     <>
-      <div>
-        <SideMenu />
-        <main>
-          <h1>Home page</h1>
-        </main>
-      </div>
+      <main>
+        <h1>Home page</h1>
+      </main>
     </>
   );
 }
