@@ -70,7 +70,7 @@ async function logUserIn(email, password, setState) {
   return response;
 }
 
-async function signupUser(email, password, confirmPassword, setState) {
+async function signupUser(email, password, confirmPassword) {
   const bodyObject = { email, password, confirmPassword };
   const method = "POST";
   const urlExtension = "/user";
@@ -86,7 +86,6 @@ async function signupUser(email, password, confirmPassword, setState) {
     return response.data;
   }
 
-  createUserLocalStorage(response, setState);
   return response;
 }
 

@@ -46,7 +46,7 @@ export default function ProfileCreationPage({ user, setProfile }) {
   }
 
   return (
-    <main>
+    <main className="twoColumn">
       <div>
         <div>
           <ErrorMessage errorArray={errorArray} />
