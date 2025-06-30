@@ -1,10 +1,12 @@
 :root {
   --border-color: #21232300;
   --error-color: #f18a8a;
-  --focus-color: #646cff;
+  --focus-color: #4d54e3;
   --item-bg-color: #eaeaea;
   --page-bg-color: #f8f9fa;
   --text-default: #212323;
+  --nav-negative: max(-80vw, -300px);
+  --nav-positive: min(80vw, 300px);
 
   background-color: var(--page-bg-color);
   color: var(--text-default);
@@ -40,7 +42,7 @@ a {
   font-weight: 500;
   gap: 0.5rem;
   color: var(--focus-color);
-  text-decoration: inherit;
+  text-decoration: underline;
 }
 
 a:focus,
@@ -203,7 +205,7 @@ nav {
   box-sizing: border-box;
   height: 100%;
   position: relative;
-  width: min(80vw, 300px);
+  width: var(--nav-positive);
 }
 
 nav.noToggle {
@@ -211,13 +213,13 @@ nav.noToggle {
 }
 
 nav.toggled {
-  left: max(-80vw, -300px);
+  left: var(--nav-negative);
   position: absolute;
   transition: ease-in-out 0.5s;
 }
 
 nav.toggled.shown {
-  transform: translateX(min(80vw, 300px));
+  transform: translateX(var(--nav-positive));
 }
 
 nav.toggled.shown > button.toggle {
@@ -257,12 +259,24 @@ textarea.post {
   position: relative;
 }
 
+.success {
+  display: grid;
+  justify-content: center;
+  padding: 1vh 0;
+}
+
+.success > * {
+  background-color: #6dcd79;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+}
+
 .wideScreenOnly {
   display: none;
 }
 
 @media (min-width: 520px) {
-  main {
+  main.twoColumn {
     grid-template-columns: 1fr 1fr;
   }
 

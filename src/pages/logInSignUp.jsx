@@ -34,11 +34,24 @@ function ConfirmPassword({
   );
 }
 
+function SignupSuccess({ signedUp }) {
+  if (!signedUp) {
+    return null;
+  }
+
+  return (
+    <div className="success">
+      <strong>You're signed up!</strong>
+    </div>
+  );
+}
+
 export default function LogInSignUp({ user, setUser, setProfile }) {
   const [email, setEmail] = useState("c@b.com");
   const [password, setPassword] = useState("123456");
   const [confirmPassword, setConfirmPassword] = useState("123456");
   const [errorArray, setErrorArray] = useState(null);
+  const [signedUp, setSignedUp] = useState(false);
 
   const [alreadyMember, setAlreadyMember] = useState(true);
 
@@ -59,11 +72,15 @@ export default function LogInSignUp({ user, setUser, setProfile }) {
       // call correct function based on alreadyMember
       const info = alreadyMember
         ? await logUserIn(email, password, setUser)
-        : await signupUser(email, password, confirmPassword, setUser);
+        : await signupUser(email, password, confirmPassword);
 
       // if there are errors display them
       if (info.errors) {
         setErrorArray(info.errors);
+      } else if (!alreadyMember) {
+        setErrorArray(null);
+        setSignedUp(true);
+        setAlreadyMember(true);
       } else {
         await readProfileOfUser(info.token, setProfile);
       }
@@ -77,7 +94,7 @@ export default function LogInSignUp({ user, setUser, setProfile }) {
 
   return (
     <>
-      <main>
+      <main className="twoColumn">
         <div>
           <div>
             <h1>Odin Book</h1>
@@ -90,6 +107,7 @@ export default function LogInSignUp({ user, setUser, setProfile }) {
         <div>
           <div>
             <ErrorMessage errorArray={errorArray} />
+            <SignupSuccess signedUp={signedUp} />
             <TopLogo />
 
             <form>
