@@ -63,7 +63,9 @@ function TopLevel() {
           element: <NewPost profile={profile} user={user} />,
         },
       ],
-      errorElement: <ErrorPage />,
+      errorElement: (
+        <ErrorPage user={user} profile={profile} setProfile={setProfile} />
+      ),
     },
   ]);
 

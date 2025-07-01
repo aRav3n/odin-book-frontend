@@ -5,8 +5,10 @@
   --item-bg-color: #eaeaea;
   --page-bg-color: #f8f9fa;
   --text-default: #212323;
+
   --nav-negative: max(-80vw, -200px);
   --nav-positive: min(80vw, 200px);
+  --standard-gap: 0.5rem;
 
   background-color: var(--page-bg-color);
   color: var(--text-default);
@@ -25,8 +27,8 @@
   :root {
     --border-color: #dacebe5a;
     --error-color: #923737;
-    --item-bg-color: #0e0e0e;
-    --page-bg-color: #1f1e1c;
+    --item-bg-color: #000000;
+    --page-bg-color: #322f2b;
     --text-default: #dacebe;
   }
 
@@ -89,7 +91,8 @@ button {
 
 button.sidebarButton {
   background-color: #00000000;
-  border: none;
+  border-radius: 0px;
+  border-width: 0px;
   display: flex;
   gap: 1rem;
   place-content: center;
@@ -204,6 +207,11 @@ main {
   flex-grow: 1;
   gap: 1vh;
   padding: 2vh 0;
+  position: relative;
+}
+
+main * {
+  max-width: 1500px;
 }
 
 main.singleColumn {
@@ -226,9 +234,11 @@ nav {
   align-content: start;
   align-items: start;
   background-color: var(--page-bg-color);
+  filter: sepia(15%);
   border-right: 1px solid var(--text-default);
   box-sizing: border-box;
   display: grid;
+  flex-shrink: 0;
   height: 100%;
   justify-content: start;
   justify-items: start;
@@ -245,6 +255,7 @@ nav.toggled {
   left: var(--nav-negative);
   position: absolute;
   transition: ease-in-out 0.5s;
+  z-index: 1;
 }
 
 nav.toggled.shown {
@@ -259,6 +270,99 @@ p {
   display: flex;
   gap: 0.25rem;
   justify-content: center;
+}
+
+p.createPostMessage {
+  display: inline-block;
+}
+
+p.createPostMessage a {
+  display: inline;
+}
+
+.post {
+  border: 1px solid var(--text-default);
+  border-radius: 0.25rem;
+  display: grid;
+  gap: var(--standard-gap);
+  justify-content: stretch;
+  justify-items: stretch;
+  padding: var(--standard-gap);
+}
+
+.post div.buttons {
+  display: flex;
+  gap: min(400px, 5vw);
+  justify-content: center;
+}
+
+.post div.comments {
+  display: grid;
+  justify-content: stretch;
+  justify-items: center;
+  padding: var(--standard-gap);
+}
+
+.post div.comments > div {
+  display: grid;
+  gap: var(--standard-gap);
+}
+
+.post div.comments textarea {
+  border: 1px solid var(--text-default);
+  border-radius: 0.25rem;
+  justify-self: stretch;
+  padding: 0.25rem;
+  width: min(80vw, 800px);
+}
+
+.post div.comments textarea.short {
+  height: 1rem;
+}
+
+.post div.comments textarea.tall {
+  height: min(200px, 30vh);
+  justify-self: stretch;
+  width: min(80vw, 800px);
+}
+
+.post > div:first-child {
+  display: grid;
+  gap: var(--standard-gap);
+}
+
+.post > div:first-child div.date,
+.post > div:first-child div.name {
+  display: grid;
+  justify-content: start;
+  justify-self: start;
+}
+
+.post > div:first-child .name {
+  font-weight: bold;
+}
+
+.post > div:first-child .text {
+  justify-self: center;
+  padding: 0 1rem;
+  text-align: left;
+}
+
+.post > div:nth-child(2) {
+  display: flex;
+  gap: min(500px, 12vw);
+  justify-content: center;
+}
+
+.post > div:nth-child(2) button {
+  display: flex;
+  gap: var(--standard-gap);
+}
+
+.postContainer {
+  display: grid;
+  gap: 1vh;
+  position: relative;
 }
 
 textarea {
@@ -287,6 +391,13 @@ textarea.post {
   display: flex;
   flex-grow: 1;
   position: relative;
+}
+
+#root div#error-page {
+  align-content: center;
+  align-items: center;
+  background-color: var(--error-color);
+  display: grid;
 }
 
 .success {

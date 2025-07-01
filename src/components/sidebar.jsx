@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { CirclePlus, Clock, Contact, User } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 function ToggleDisplayButton({ showMenu, setShowMenu, useToggle }) {
   if (!useToggle) {
@@ -18,8 +19,16 @@ function ToggleDisplayButton({ showMenu, setShowMenu, useToggle }) {
   );
 }
 
-function SidebarButton({ useToggle, showMenu, setShowMenu, text, LucideIcon }) {
+function SidebarButton({
+  useToggle,
+  showMenu,
+  setShowMenu,
+  text,
+  LucideIcon,
+  urlExtension,
+}) {
   const [tabIndex, setTabIndex] = useState("-1");
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (showMenu) {
@@ -29,11 +38,23 @@ function SidebarButton({ useToggle, showMenu, setShowMenu, text, LucideIcon }) {
     }
   });
 
-  function handleSidebarButtonClick() {}
+  function handleSidebarButtonClick() {
+    if (useToggle) {
+      setShowMenu(false);
+    }
+    if (urlExtension) {
+      navigate(urlExtension);
+    }
+  }
 
   return (
     <>
-      <button type="button" className="sidebarButton" tabIndex={tabIndex}>
+      <button
+        type="button"
+        className="sidebarButton"
+        tabIndex={tabIndex}
+        onClick={handleSidebarButtonClick}
+      >
         <LucideIcon />
         {text}
       </button>
@@ -50,6 +71,7 @@ function FriendPostsButton({ useToggle, showMenu, setShowMenu }) {
       setShowMenu={setShowMenu}
       text={"Friends Posts"}
       LucideIcon={Contact}
+      urlExtension={"postsByFriends"}
     />
   );
 }
@@ -62,6 +84,7 @@ function MyProfileButton({ useToggle, showMenu, setShowMenu }) {
       setShowMenu={setShowMenu}
       text={"My Profile"}
       LucideIcon={User}
+      urlExtension={"me"}
     />
   );
 }
@@ -74,6 +97,7 @@ function RecentPostsButton({ useToggle, showMenu, setShowMenu }) {
       setShowMenu={setShowMenu}
       text={"Recent Posts"}
       LucideIcon={Clock}
+      urlExtension={"/"}
     />
   );
 }

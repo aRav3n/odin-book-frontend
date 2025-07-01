@@ -144,6 +144,41 @@ async function createPost(text, token, profileId) {
   return response;
 }
 
+async function readRecentPosts(token, startNumber) {
+  const method = "GET";
+  const urlExtension = `/post/recent/${startNumber}`;
+
+  const response = await getJsonResponse(urlExtension, method, token, null);
+
+  if (response.error) {
+    return response.data;
+  }
+
+  return response;
+}
+
+// comment functions
+async function createCommentOnPost(token, postId, profileId, text) {
+  const method = "POST";
+  const urlExtension = `/comment/post/${postId}/from/${profileId} `;
+  const bodyObject = { text };
+
+  const response = await getJsonResponse(
+    urlExtension,
+    method,
+    token,
+    bodyObject
+  );
+
+  if (response.error) {
+    return response.data;
+  }
+
+  console.log(response);
+
+  return response;
+}
+
 export {
   // user functions
   logUserIn,
@@ -155,4 +190,8 @@ export {
 
   // post functions
   createPost,
+  readRecentPosts,
+
+  // comment functions
+  createCommentOnPost,
 };

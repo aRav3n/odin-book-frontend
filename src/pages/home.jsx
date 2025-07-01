@@ -6,6 +6,7 @@ import {
 
 import LogInSignUp from "./logInSignUp";
 import ProfileCreationPage from "./profileCreation";
+import RecentPostDisplay from "../components/recentPostsDisplay";
 
 export default function LandingPage({ user, setUser, profile, setProfile }) {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -36,7 +37,7 @@ export default function LandingPage({ user, setUser, profile, setProfile }) {
   return (
     <>
       <main>
-        <h1>Home page</h1>
+        <RecentPostDisplay token={user.token} profileId={profile.id} />
       </main>
     </>
   );
