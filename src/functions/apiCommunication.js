@@ -174,8 +174,6 @@ async function createCommentOnPost(token, postId, profileId, text) {
     return response.data;
   }
 
-  console.log(response);
-
   return response;
 }
 

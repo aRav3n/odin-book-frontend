@@ -305,13 +305,13 @@ p.createPostMessage a {
 
 .post div.comments > div {
   display: grid;
+  justify-items: center;
   gap: var(--standard-gap);
 }
 
 .post div.comments textarea {
   border: 1px solid var(--text-default);
   border-radius: 0.25rem;
-  justify-self: stretch;
   padding: 0.25rem;
   width: min(80vw, 800px);
 }
@@ -354,7 +354,7 @@ p.createPostMessage a {
   justify-content: center;
 }
 
-.post > div:nth-child(2) button {
+.post button {
   display: flex;
   gap: var(--standard-gap);
 }

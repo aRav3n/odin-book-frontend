@@ -1,6 +1,11 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { MessageSquare, ThumbsUp } from "lucide-react";
+import {
+  MessageSquare,
+  MessageSquareOff,
+  MessageSquareShare,
+  ThumbsUp,
+} from "lucide-react";
 
 import {
   createCommentOnPost,
@@ -50,17 +55,30 @@ function CommentBox({
   const [commenting, setCommenting] = useState(false);
   const [commentText, setCommentText] = useState("");
 
-  function handleComment() {
-    (async () => {
-      await createCommentOnPost();
-    })();
-  }
-
   useEffect(() => {
     if (!commenting) {
       setCommentText("");
     }
-  }, commenting);
+  }, [commenting]);
+
+  function handleComment() {
+    (async () => {
+      const response = await createCommentOnPost(
+        token,
+        postObject.id,
+        profileId,
+        commentText
+      );
+      console.log(response);
+    })();
+    setCommentText("");
+    setCommenting(false);
+  }
+
+  function noCommenting() {
+    setCommentText("");
+    setCommenting(false);
+  }
 
   if (!displayComments) {
     return null;
@@ -73,6 +91,10 @@ function CommentBox({
           name="text"
           id="text"
           className={commenting ? "tall" : "short"}
+          value={commentText}
+          onChange={(e) => {
+            setCommentText(e.target.value);
+          }}
           onClick={(e) => {
             if (e.currentTarget && !commenting) {
               setCommenting(true);
@@ -81,13 +103,17 @@ function CommentBox({
         ></textarea>
         {commenting ? (
           <div className="buttons">
-            <button type="button">Comment</button>
+            <button type="button" onClick={handleComment}>
+              <MessageSquareShare />
+              Comment
+            </button>
             <button
               type="button"
               onClick={() => {
-                setCommenting(false);
+                noCommenting();
               }}
             >
+              <MessageSquareOff />
               Cancel
             </button>
           </div>
