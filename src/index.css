@@ -127,6 +127,26 @@ button.toggle > svg {
   padding: 2em;
 }
 
+div.childComments {
+  border-bottom: 1px solid var(--text-default);
+  border-left: 1px solid var(--text-default);
+  border-radius: 0 0 0.25rem 0.25rem;
+  border-right: 1px solid var(--text-default);
+  display: grid;
+  gap: var(--standard-gap);
+  justify-content: center;
+  padding-bottom: var(--standard-gap);
+}
+
+div.childComments button {
+  padding: 0.5rem 0.75rem;
+}
+
+div.childComments button svg {
+  height: 1rem;
+  width: auto;
+}
+
 .errorMessage {
   background-color: var(--error-color);
   border-radius: 0.25rem;
@@ -206,6 +226,7 @@ main {
   display: grid;
   flex-grow: 1;
   gap: 1vh;
+  justify-content: center;
   padding: 2vh 0;
   position: relative;
 }
@@ -292,7 +313,7 @@ p.createPostMessage a {
 
 .post div.buttons {
   display: flex;
-  gap: min(400px, 5vw);
+  gap: min(400px, 2vw);
   justify-content: center;
 }
 
@@ -312,8 +333,8 @@ p.createPostMessage a {
 .post div.comments textarea {
   border: 1px solid var(--text-default);
   border-radius: 0.25rem;
+  justify-self: stretch;
   padding: 0.25rem;
-  width: min(80vw, 800px);
 }
 
 .post div.comments textarea.short {
@@ -322,8 +343,6 @@ p.createPostMessage a {
 
 .post div.comments textarea.tall {
   height: min(200px, 30vh);
-  justify-self: stretch;
-  width: min(80vw, 800px);
 }
 
 .post > div:first-child {
@@ -331,18 +350,18 @@ p.createPostMessage a {
   gap: var(--standard-gap);
 }
 
-.post > div:first-child div.date,
-.post > div:first-child div.name {
+.post div.date,
+.post div.name {
   display: grid;
   justify-content: start;
   justify-self: start;
 }
 
-.post > div:first-child .name {
+.post div.name {
   font-weight: bold;
 }
 
-.post > div:first-child .text {
+.post div.text {
   justify-self: center;
   padding: 0 1rem;
   text-align: left;

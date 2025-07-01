@@ -1,16 +1,11 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import {
-  MessageSquare,
-  MessageSquareOff,
-  MessageSquareShare,
-  ThumbsUp,
-} from "lucide-react";
 
-import {
-  createCommentOnPost,
-  readRecentPosts,
-} from "../functions/apiCommunication";
+import CommentsDisplay from "./commentsDisplay";
+import LikeButton from "./likeButton";
+import CommentButton from "./commentButton";
+
+import { readRecentPosts } from "../functions/apiCommunication";
 
 async function getNewPosts(posts, setPosts, token, setErrorArray) {
   const startNumber = posts.length + 1;
@@ -45,95 +40,13 @@ function formatDate(dateString) {
   return `${day} at ${time}`;
 }
 
-function CommentBox({
-  postObject,
-  displayComments,
-  setDisplayComments,
-  token,
-  profileId,
-}) {
-  const [commenting, setCommenting] = useState(false);
-  const [commentText, setCommentText] = useState("");
-
-  useEffect(() => {
-    if (!commenting) {
-      setCommentText("");
-    }
-  }, [commenting]);
-
-  function handleComment() {
-    (async () => {
-      const response = await createCommentOnPost(
-        token,
-        postObject.id,
-        profileId,
-        commentText
-      );
-      console.log(response);
-    })();
-    setCommentText("");
-    setCommenting(false);
-  }
-
-  function noCommenting() {
-    setCommentText("");
-    setCommenting(false);
-  }
-
-  if (!displayComments) {
-    return null;
-  }
-  return (
-    <div className="comments">
-      <div>
-        <textarea
-          placeholder="What do you think?"
-          name="text"
-          id="text"
-          className={commenting ? "tall" : "short"}
-          value={commentText}
-          onChange={(e) => {
-            setCommentText(e.target.value);
-          }}
-          onClick={(e) => {
-            if (e.currentTarget && !commenting) {
-              setCommenting(true);
-            }
-          }}
-        ></textarea>
-        {commenting ? (
-          <div className="buttons">
-            <button type="button" onClick={handleComment}>
-              <MessageSquareShare />
-              Comment
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                noCommenting();
-              }}
-            >
-              <MessageSquareOff />
-              Cancel
-            </button>
-          </div>
-        ) : null}
-      </div>
-    </div>
-  );
-}
-
 function PostDisplay({ postObject, token, profileId }) {
   const [showFull, setShowFull] = useState(false);
   const [displayComments, setDisplayComments] = useState(false);
 
-  const id = postObject.id;
   const name = postObject.Profile.name;
   const text = postObject.text;
-  const postId = postObject.id;
   const date = formatDate(postObject.createdAt);
-  const commentCount = postObject._count.comments;
-  const likeCount = postObject._count.likes;
 
   useEffect(() => {
     if (!showFull) {
@@ -165,24 +78,18 @@ function PostDisplay({ postObject, token, profileId }) {
       {showFull ? (
         <>
           <div>
-            <button type="button">
-              <ThumbsUp /> {likeCount}
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                const newDisplayBool = !displayComments;
-                setDisplayComments(newDisplayBool);
-              }}
-            >
-              <MessageSquare /> {commentCount}
-            </button>
+            <LikeButton likeCount={postObject._count.likes} />
+            <CommentButton
+              displayComments={displayComments}
+              setDisplayComments={setDisplayComments}
+              commentCount={postObject._count.comments}
+            />
           </div>
-          <CommentBox
-            postObject={postObject}
-            displayComments={displayComments}
-            setDisplayComments={setDisplayComments}
+          <CommentsDisplay
+            parentIsPost={true}
+            parentObject={postObject}
             token={token}
+            displayComments={displayComments}
             profileId={profileId}
           />
         </>

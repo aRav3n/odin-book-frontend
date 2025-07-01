@@ -158,9 +158,11 @@ async function readRecentPosts(token, startNumber) {
 }
 
 // comment functions
-async function createCommentOnPost(token, postId, profileId, text) {
+async function createComment(token, parentId, profileId, text, parentIsPost) {
   const method = "POST";
-  const urlExtension = `/comment/post/${postId}/from/${profileId} `;
+  const urlExtension = parentIsPost
+    ? `/comment/post/${parentId}/from/${profileId}`
+    : `/comment/reply/${parentId}/from/${profileId}`;
   const bodyObject = { text };
 
   const response = await getJsonResponse(
@@ -169,6 +171,21 @@ async function createCommentOnPost(token, postId, profileId, text) {
     token,
     bodyObject
   );
+
+  if (response.error) {
+    return response.data;
+  }
+
+  return response;
+}
+
+async function readComments(token, parentId, parentIsPost) {
+  const method = "GET";
+  const urlExtension = parentIsPost
+    ? `/comment/post/${parentId}`
+    : `/comment/reply/${parentId}`;
+
+  const response = await getJsonResponse(urlExtension, method, token, null);
 
   if (response.error) {
     return response.data;
@@ -191,5 +208,6 @@ export {
   readRecentPosts,
 
   // comment functions
-  createCommentOnPost,
+  createComment,
+  readComments,
 };

@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { MessageSquare, ThumbsUp } from "lucide-react";
 
 import ErrorMessage from "./errorMessage";
-import CommentBox from "./commentBox";
 import CommentsDisplay from "./commentsDisplay";
+import LikeButton from "./likeButton";
+import CommentButton from "./commentButton";
 
 import { readComments } from "../functions/apiCommunication";
 
@@ -15,28 +16,13 @@ export default function SingleCommentDisplay({ comment, token, profileId }) {
       <div className="name">{comment.Profile.name}</div>
       <div className="text">{comment.text}</div>
       <div className="buttons">
-        <button type="button">
-          <ThumbsUp />
-          {` ${comment._count.likes}`}
-        </button>
-        <button
-          type="button"
-          onClick={() => {
-            const newBool = !displayReplies;
-            setDisplayReplies(newBool);
-          }}
-        >
-          <MessageSquare />
-          {` ${comment._count.replies}`}
-        </button>
+        <LikeButton likeCount={comment._count.likes} />
+        <CommentButton
+          displayComments={displayReplies}
+          setDisplayComments={setDisplayReplies}
+          commentCount={comment._count.replies}
+        />
       </div>
-      <CommentBox
-        parentObject={comment}
-        displayComments={displayReplies}
-        token={token}
-        profileId={profileId}
-        parentIsPost={false}
-      />
       <CommentsDisplay
         parentIsPost={false}
         parentObject={comment}
