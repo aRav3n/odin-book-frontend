@@ -16,7 +16,14 @@ export default function SingleCommentDisplay({ comment, token, profileId }) {
       <div className="name">{comment.Profile.name}</div>
       <div className="text">{comment.text}</div>
       <div className="buttons">
-        <LikeButton likeCount={comment._count.likes} />
+        <LikeButton
+          likeCount={comment._count.likes}
+          token={token}
+          parentId={comment.id}
+          profileId={profileId}
+          parentIsPost={false}
+          likesArray={comment.likes}
+        />
         <CommentButton
           displayComments={displayReplies}
           setDisplayComments={setDisplayReplies}

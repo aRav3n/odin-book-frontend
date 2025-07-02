@@ -78,7 +78,14 @@ function PostDisplay({ postObject, token, profileId }) {
       {showFull ? (
         <>
           <div>
-            <LikeButton likeCount={postObject._count.likes} />
+            <LikeButton
+              likeCount={postObject._count.likes}
+              token={token}
+              parentId={postObject.id}
+              profileId={profileId}
+              parentIsPost={true}
+              likesArray={postObject.likes}
+            />
             <CommentButton
               displayComments={displayComments}
               setDisplayComments={setDisplayComments}

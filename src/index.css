@@ -4,6 +4,7 @@
   --focus-color: #4d54e3;
   --item-bg-color: #eaeaea;
   --page-bg-color: #f8f9fa;
+  --success-color: #6dcd79;
   --text-default: #212323;
 
   --nav-negative: max(-80vw, -200px);
@@ -89,6 +90,10 @@ button {
   transition: border-color 0.25s;
 }
 
+button.liked svg {
+  fill: var(--success-color);
+}
+
 button.sidebarButton {
   background-color: #00000000;
   border-radius: 0px;
@@ -135,7 +140,7 @@ div.childComments {
   display: grid;
   gap: var(--standard-gap);
   justify-content: center;
-  padding-bottom: var(--standard-gap);
+  padding: 0 1vw var(--standard-gap) 1vw;
 }
 
 div.childComments button {
@@ -426,7 +431,7 @@ textarea.post {
 }
 
 .success > * {
-  background-color: #6dcd79;
+  background-color: var(--success-color);
   border-radius: 0.5rem;
   padding: 0.5rem 1rem;
 }

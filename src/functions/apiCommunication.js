@@ -48,39 +48,97 @@ async function getJsonResponse(urlExtension, method, token, bodyObject) {
   }
 }
 
-// user functions
-async function logUserIn(email, password, setState) {
-  const bodyObject = { email, password };
+// comment functions
+async function createComment(token, parentId, profileId, text, parentIsPost) {
   const method = "POST";
-  const urlExtension = "/user/login";
+  const urlExtension = parentIsPost
+    ? `/comment/post/${parentId}/from/${profileId}`
+    : `/comment/reply/${parentId}/from/${profileId}`;
+  const bodyObject = { text };
 
   const response = await getJsonResponse(
     urlExtension,
     method,
-    null,
+    token,
     bodyObject
   );
 
   if (response.error) {
     return response.data;
-  } else {
-    createUserLocalStorage(response, setState);
   }
 
   return response;
 }
 
-async function signupUser(email, password, confirmPassword) {
-  const bodyObject = { email, password, confirmPassword };
+async function readComments(token, parentId, parentIsPost) {
+  const method = "GET";
+  const urlExtension = parentIsPost
+    ? `/comment/post/${parentId}`
+    : `/comment/reply/${parentId}`;
+
+  const response = await getJsonResponse(urlExtension, method, token, null);
+
+  if (response.error) {
+    return response.data;
+  }
+
+  return response;
+}
+
+// like functions
+async function createLike(token, parentId, profileId, parentIsPost) {
   const method = "POST";
-  const urlExtension = "/user";
+  const urlExtension = parentIsPost
+    ? `/like/post/${parentId}/from/${profileId}`
+    : `/like/comment/${parentId}/from/${profileId}`;
+
+  const response = await getJsonResponse(urlExtension, method, token);
+
+  if (response.error) {
+    return response.data;
+  }
+
+  return response;
+}
+
+async function deleteLike(token, likeId) {
+  const method = "DELETE";
+  const urlExtension = `/like/${likeId} `;
+
+  const response = await getJsonResponse(urlExtension, method, token);
+
+  if (response.error) {
+    return response.data;
+  }
+
+  return response;
+}
+
+// post functions
+async function createPost(text, token, profileId) {
+  const method = "POST";
+  const urlExtension = `/post/${profileId}`;
+  const bodyObject = { text };
 
   const response = await getJsonResponse(
     urlExtension,
     method,
-    null,
+    token,
     bodyObject
   );
+
+  if (response.error) {
+    return response.data;
+  }
+
+  return response;
+}
+
+async function readRecentPosts(token, startNumber) {
+  const method = "GET";
+  const urlExtension = `/post/recent/${startNumber}`;
+
+  const response = await getJsonResponse(urlExtension, method, token, null);
 
   if (response.error) {
     return response.data;
@@ -124,68 +182,39 @@ async function readProfileOfUser(token, setState) {
   return response;
 }
 
-// post functions
-async function createPost(text, token, profileId) {
+// user functions
+async function logUserIn(email, password, setState) {
+  const bodyObject = { email, password };
   const method = "POST";
-  const urlExtension = `/post/${profileId}`;
-  const bodyObject = { text };
+  const urlExtension = "/user/login";
 
   const response = await getJsonResponse(
     urlExtension,
     method,
-    token,
+    null,
     bodyObject
   );
 
   if (response.error) {
     return response.data;
+  } else {
+    createUserLocalStorage(response, setState);
   }
 
   return response;
 }
 
-async function readRecentPosts(token, startNumber) {
-  const method = "GET";
-  const urlExtension = `/post/recent/${startNumber}`;
-
-  const response = await getJsonResponse(urlExtension, method, token, null);
-
-  if (response.error) {
-    return response.data;
-  }
-
-  return response;
-}
-
-// comment functions
-async function createComment(token, parentId, profileId, text, parentIsPost) {
+async function signupUser(email, password, confirmPassword) {
+  const bodyObject = { email, password, confirmPassword };
   const method = "POST";
-  const urlExtension = parentIsPost
-    ? `/comment/post/${parentId}/from/${profileId}`
-    : `/comment/reply/${parentId}/from/${profileId}`;
-  const bodyObject = { text };
+  const urlExtension = "/user";
 
   const response = await getJsonResponse(
     urlExtension,
     method,
-    token,
+    null,
     bodyObject
   );
-
-  if (response.error) {
-    return response.data;
-  }
-
-  return response;
-}
-
-async function readComments(token, parentId, parentIsPost) {
-  const method = "GET";
-  const urlExtension = parentIsPost
-    ? `/comment/post/${parentId}`
-    : `/comment/reply/${parentId}`;
-
-  const response = await getJsonResponse(urlExtension, method, token, null);
 
   if (response.error) {
     return response.data;
@@ -195,19 +224,23 @@ async function readComments(token, parentId, parentIsPost) {
 }
 
 export {
-  // user functions
-  logUserIn,
-  signupUser,
+  // comment functions
+  createComment,
+  readComments,
 
-  // profile functions
-  createProfile,
-  readProfileOfUser,
+  // like functions
+  createLike,
+  deleteLike,
 
   // post functions
   createPost,
   readRecentPosts,
 
-  // comment functions
-  createComment,
-  readComments,
+  // profile functions
+  createProfile,
+  readProfileOfUser,
+
+  // user functions
+  logUserIn,
+  signupUser,
 };
