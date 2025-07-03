@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import ErrorMessage from "../components/errorMessage";
 import { createPost } from "../functions/apiCommunication";
 
-export default function NewPost({ profile, user }) {
+export default function NewPost({ profile, setProfile, user }) {
   const [errorArray, setErrorArray] = useState(null);
   const [text, setText] = useState("");
   const navigate = useNavigate();
@@ -20,7 +20,12 @@ export default function NewPost({ profile, user }) {
       if (!text) {
         setErrorArray([{ message: "Cannot submit a blank post" }]);
       } else {
-        const response = await createPost(text, user.token, profile.id);
+        const response = await createPost(
+          text,
+          user.token,
+          profile.id,
+          setProfile
+        );
 
         if (response.errors) {
           setErrorArray(response.errors);

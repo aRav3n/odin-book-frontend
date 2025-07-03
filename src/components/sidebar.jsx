@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { CirclePlus, Clock, Contact, User } from "lucide-react";
+import { CirclePlus, Clock, Contact, User, Users } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 function ToggleDisplayButton({ showMenu, setShowMenu, useToggle }) {
@@ -71,12 +71,14 @@ function FriendPostsButton({ useToggle, showMenu, setShowMenu }) {
       setShowMenu={setShowMenu}
       text={"Friends Posts"}
       LucideIcon={Contact}
-      urlExtension={"postsByFriends"}
+      urlExtension={"friends/posts"}
     />
   );
 }
 
-function MyProfileButton({ useToggle, showMenu, setShowMenu }) {
+function MyProfileButton({ useToggle, showMenu, setShowMenu, profile }) {
+  const urlExtension = `profile/${profile.id}`;
+
   return (
     <SidebarButton
       useToggle={useToggle}
@@ -84,7 +86,7 @@ function MyProfileButton({ useToggle, showMenu, setShowMenu }) {
       setShowMenu={setShowMenu}
       text={"My Profile"}
       LucideIcon={User}
-      urlExtension={"me"}
+      urlExtension={urlExtension}
     />
   );
 }
@@ -98,6 +100,19 @@ function RecentPostsButton({ useToggle, showMenu, setShowMenu }) {
       text={"Recent Posts"}
       LucideIcon={Clock}
       urlExtension={"/"}
+    />
+  );
+}
+
+function FriendsButton({ useToggle, showMenu, setShowMenu }) {
+  return (
+    <SidebarButton
+      useToggle={useToggle}
+      showMenu={showMenu}
+      setShowMenu={setShowMenu}
+      text={"Friends"}
+      LucideIcon={Users}
+      urlExtension={"friends"}
     />
   );
 }
@@ -160,13 +175,19 @@ export default function SideMenu({ profile }) {
         useToggle={useToggle}
         showMenu={showMenu}
         setShowMenu={setShowMenu}
+        profile={profile}
       />
-      <RecentPostsButton
+      <FriendsButton
         useToggle={useToggle}
         showMenu={showMenu}
         setShowMenu={setShowMenu}
       />
       <FriendPostsButton
+        useToggle={useToggle}
+        showMenu={showMenu}
+        setShowMenu={setShowMenu}
+      />
+      <RecentPostsButton
         useToggle={useToggle}
         showMenu={showMenu}
         setShowMenu={setShowMenu}

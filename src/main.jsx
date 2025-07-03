@@ -14,6 +14,7 @@ import Footer from "./components/footer";
 import Header from "./components/header";
 import NewPost from "./pages/newPost";
 import SideMenu from "./components/sidebar";
+import ProfilePage from "./pages/profilePage";
 
 function Layout({ user, profile, setProfile }) {
   return (
@@ -60,7 +61,19 @@ function TopLevel() {
         },
         {
           path: "newPost",
-          element: <NewPost profile={profile} user={user} />,
+          element: (
+            <NewPost profile={profile} setProfile={setProfile} user={user} />
+          ),
+        },
+        {
+          path: "profile/:profileId",
+          element: (
+            <ProfilePage
+              profile={profile}
+              setProfile={setProfile}
+              user={user}
+            />
+          ),
         },
       ],
       errorElement: (
