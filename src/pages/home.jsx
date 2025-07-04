@@ -4,9 +4,9 @@ import {
   deleteUserLocalStorage,
 } from "../functions/localStorage";
 
+import GeneralPostsDisplay from "../components/postsDisplay";
 import LogInSignUp from "./logInSignUp";
 import ProfileCreationPage from "./profileCreation";
-import RecentPostDisplay from "../components/recentPostsDisplay";
 
 export default function LandingPage({ user, setUser, profile, setProfile }) {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -37,7 +37,12 @@ export default function LandingPage({ user, setUser, profile, setProfile }) {
   return (
     <>
       <main>
-        <RecentPostDisplay token={user.token} profileId={profile.id} />
+        <GeneralPostsDisplay
+          profileObject={profile}
+          profileId={profile.id}
+          profileIdToDisplay={null}
+          token={user.token}
+        />
       </main>
     </>
   );

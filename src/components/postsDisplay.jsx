@@ -44,11 +44,11 @@ function formatDate(dateString) {
   return `${day} at ${time}`;
 }
 
-function PostDisplay({ postObject, token, profileId }) {
+function PostDisplay({ postObject, token, profileId, profileName }) {
   const [showFull, setShowFull] = useState(false);
   const [displayComments, setDisplayComments] = useState(false);
 
-  const name = postObject.Profile.name;
+  const name = postObject.Profile?.name ? postObject.Profile.name : profileName;
   const text = postObject.text;
   const date = formatDate(postObject.createdAt);
 
@@ -110,13 +110,13 @@ function PostDisplay({ postObject, token, profileId }) {
 }
 
 export default function GeneralPostsDisplay({
-  posts,
-  setPosts,
+  profileObject,
   profileId,
   profileIdToDisplay,
   token,
 }) {
   const [errorArray, setErrorArray] = useState(null);
+  const [posts, setPosts] = useState([]);
 
   function updatePosts() {
     (async () => {
@@ -131,7 +131,7 @@ export default function GeneralPostsDisplay({
   }
 
   useEffect(() => {
-    if (!posts || posts.length === 0) {
+    if ((!posts || posts.length === 0) && setPosts !== null) {
       updatePosts();
     }
   }, []);
@@ -159,6 +159,7 @@ export default function GeneralPostsDisplay({
             key={post.id}
             token={token}
             profileId={profileId}
+            profileName={profileObject?.name || null}
           />
         );
       })}

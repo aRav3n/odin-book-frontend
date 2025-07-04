@@ -9,6 +9,7 @@ function readLocalStorage(key, setState) {
   const item = JSON.parse(localStorage.getItem(key)) || null;
   if (item) {
     setState(item);
+    return item;
   }
 }
 function updateLocalStorage(key, newObject, setState) {
@@ -29,7 +30,8 @@ export function createUserLocalStorage(userObject, setState) {
   createLocalStorage(userKey, userObject, setState);
 }
 export function readUserLocalStorage(setState) {
-  readLocalStorage(userKey, setState);
+  const user = readLocalStorage(userKey, setState);
+  return user;
 }
 export function updateUserLocalStorage(newUserObject, setState) {
   updateLocalStorage(userKey, newUserObject, setState);
@@ -44,7 +46,8 @@ export function createProfileLocalStorage(profileObject, setState) {
   createLocalStorage(profileKey, profileObject, setState);
 }
 export function readProfileLocalStorage(setState) {
-  readLocalStorage(profileKey, setState);
+  const profile = readLocalStorage(profileKey, setState);
+  return profile;
 }
 export function updateProfileLocalStorage(newProfileObject, setState) {
   updateLocalStorage(profileKey, newProfileObject, setState);

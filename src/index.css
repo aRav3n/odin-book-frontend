@@ -240,6 +240,11 @@ main * {
   max-width: 1500px;
 }
 
+main.profilePage {
+  align-content: start;
+  align-items: start;
+}
+
 main.singleColumn {
   grid-template-columns: 1fr;
 }

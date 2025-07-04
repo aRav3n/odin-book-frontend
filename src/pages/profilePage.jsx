@@ -1,42 +1,44 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { readProfile } from "../functions/apiCommunication";
+import {
+  readProfileLocalStorage,
+  readUserLocalStorage,
+} from "../functions/localStorage";
 
-import ErrorMessage from "../components/errorMessage";
+import GeneralPostsDisplay from "../components/postsDisplay";
 
-export default function ProfilePage({ profile, setProfile, user }) {
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (!user || !profile) {
-      navigate("/");
-    }
-  });
-
-  console.log(profile);
-
-  const [errorArray, setErrorArray] = useState(null);
+export default function ProfilePage() {
   const [heading, setHeading] = useState("Posts");
-  const [token, setToken] = useState(null);
+  const [profile, setProfile] = useState(null);
+  const [user, setUser] = useState(null);
   const { profileId } = useParams();
 
-  async function refreshProfileFromDatabase() {
-    const response = await readProfile(profileId, token, setProfile);
-
-    if (response.errors) {
-      setErrorArray(response.errors);
-    }
-  }
-
+  const navigate = useNavigate();
   useEffect(() => {
-    setHeading(`${profile.name}'s Posts`);
-    setToken(user.token);
-  }, [profile, user]);
+    const localProfile = readProfileLocalStorage(setProfile);
+    const localUser = readUserLocalStorage(setUser);
+
+    if (!localUser || !localProfile) {
+      navigate("/");
+    } else {
+      setHeading(`${localProfile.name}'s Posts`);
+    }
+  }, []);
+
+  if (!profile || !user) {
+    return null;
+  }
 
   return (
     <main className="profilePage">
       <h1>{heading}</h1>
-      <ErrorMessage errorArray={errorArray} />
+      <GeneralPostsDisplay
+        profileObject={profile}
+        profileId={profile.id}
+        profileIdToDisplay={profileId}
+        token={user.token}
+      />
     </main>
   );
 }
