@@ -31,7 +31,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <main className="profilePage">
+    <main className="profile-page">
       <h1>{heading}</h1>
       <GeneralPostsDisplay
         profileObject={profile}

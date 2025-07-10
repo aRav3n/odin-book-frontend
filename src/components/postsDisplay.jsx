@@ -139,7 +139,7 @@ export default function GeneralPostsDisplay({
   if (posts.length === 0) {
     return (
       <>
-        <p className="createPostMessage">
+        <p className="create-post-message">
           It looks like there aren't any posts to display.
         </p>
         <ErrorMessage errorArray={errorArray} />
@@ -148,7 +148,7 @@ export default function GeneralPostsDisplay({
   }
 
   return (
-    <div className="postContainer">
+    <div className="post-container">
       <p>To see more detail click on a post to expand it.</p>
       <ErrorMessage errorArray={errorArray} />
 

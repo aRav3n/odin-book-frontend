@@ -1,5 +1,12 @@
 import { useState, useEffect } from "react";
-import { CirclePlus, Clock, Contact, User, Users } from "lucide-react";
+import {
+  CirclePlus,
+  Clock,
+  Contact,
+  User,
+  UserSearch,
+  Users,
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 function ToggleDisplayButton({ showMenu, setShowMenu, useToggle }) {
@@ -51,7 +58,7 @@ function SidebarButton({
     <>
       <button
         type="button"
-        className="sidebarButton"
+        className="sidebar-button"
         tabIndex={tabIndex}
         onClick={handleSidebarButtonClick}
       >
@@ -60,6 +67,19 @@ function SidebarButton({
       </button>
       <hr />
     </>
+  );
+}
+
+function FindFriendsButton({ useToggle, showMenu, setShowMenu }) {
+  return (
+    <SidebarButton
+      useToggle={useToggle}
+      showMenu={showMenu}
+      setShowMenu={setShowMenu}
+      text={"Add a Friend"}
+      LucideIcon={UserSearch}
+      urlExtension={"friends/add"}
+    />
   );
 }
 
@@ -72,6 +92,19 @@ function FriendPostsButton({ useToggle, showMenu, setShowMenu }) {
       text={"Friends Posts"}
       LucideIcon={Contact}
       urlExtension={"friends/posts"}
+    />
+  );
+}
+
+function FriendsButton({ useToggle, showMenu, setShowMenu }) {
+  return (
+    <SidebarButton
+      useToggle={useToggle}
+      showMenu={showMenu}
+      setShowMenu={setShowMenu}
+      text={"My Friends"}
+      LucideIcon={Users}
+      urlExtension={"friends"}
     />
   );
 }
@@ -104,19 +137,6 @@ function RecentPostsButton({ useToggle, showMenu, setShowMenu }) {
   );
 }
 
-function FriendsButton({ useToggle, showMenu, setShowMenu }) {
-  return (
-    <SidebarButton
-      useToggle={useToggle}
-      showMenu={showMenu}
-      setShowMenu={setShowMenu}
-      text={"Friends"}
-      LucideIcon={Users}
-      urlExtension={"friends"}
-    />
-  );
-}
-
 export default function SideMenu({ profile }) {
   if (!profile) {
     return null;
@@ -127,7 +147,7 @@ export default function SideMenu({ profile }) {
 
   useEffect(() => {
     if (!useToggle) {
-      setMenuClass("shown noToggle");
+      setMenuClass("shown no-toggle");
     } else {
       if (showMenu) {
         setMenuClass("shown toggled");
@@ -176,6 +196,11 @@ export default function SideMenu({ profile }) {
         showMenu={showMenu}
         setShowMenu={setShowMenu}
         profile={profile}
+      />
+      <FindFriendsButton
+        useToggle={useToggle}
+        showMenu={showMenu}
+        setShowMenu={setShowMenu}
       />
       <FriendsButton
         useToggle={useToggle}

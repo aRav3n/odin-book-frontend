@@ -94,7 +94,7 @@ button.liked svg {
   fill: var(--success-color);
 }
 
-button.sidebarButton {
+button.sidebar-button {
   background-color: #00000000;
   border-radius: 0px;
   border-width: 0px;
@@ -104,13 +104,13 @@ button.sidebarButton {
   place-items: center;
 }
 
-button.sidebarButton + hr {
+button.sidebar-button + hr {
   margin: 0 0 0 5%;
   opacity: 50%;
   width: 80%;
 }
 
-button.sidebarButton svg {
+button.sidebar-button svg {
   stroke: var(--text-default);
 }
 
@@ -132,7 +132,7 @@ button.toggle > svg {
   padding: 2em;
 }
 
-div.childComments {
+div.child-comments {
   border-bottom: 1px solid var(--text-default);
   border-left: 1px solid var(--text-default);
   border-radius: 0 0 0.25rem 0.25rem;
@@ -143,16 +143,16 @@ div.childComments {
   padding: 0 1vw var(--standard-gap) 1vw;
 }
 
-div.childComments button {
+div.child-comments button {
   padding: 0.5rem 0.75rem;
 }
 
-div.childComments button svg {
+div.child-comments button svg {
   height: 1rem;
   width: auto;
 }
 
-.errorMessage {
+.error-message {
   background-color: var(--error-color);
   border-radius: 0.25rem;
   display: grid;
@@ -163,7 +163,7 @@ div.childComments button svg {
   width: fit-content;
 }
 
-.errorMessage * {
+.error-message * {
   margin: 0;
   padding: 0;
 }
@@ -227,6 +227,7 @@ label {
 }
 
 main {
+  align-content: start;
   align-items: start;
   display: grid;
   flex-grow: 1;
@@ -240,12 +241,12 @@ main * {
   max-width: 1500px;
 }
 
-main.profilePage {
+main.profile-page {
   align-content: start;
   align-items: start;
 }
 
-main.singleColumn {
+main.single-column {
   grid-template-columns: 1fr;
 }
 
@@ -278,7 +279,7 @@ nav {
   width: var(--nav-positive);
 }
 
-nav.noToggle {
+nav.no-toggle {
   left: 0;
 }
 
@@ -303,11 +304,11 @@ p {
   justify-content: center;
 }
 
-p.createPostMessage {
+p.create-post-message {
   display: inline-block;
 }
 
-p.createPostMessage a {
+p.create-post-message a {
   display: inline;
 }
 
@@ -388,10 +389,24 @@ p.createPostMessage a {
   gap: var(--standard-gap);
 }
 
-.postContainer {
+.post-container {
   display: grid;
   gap: 1vh;
   position: relative;
+}
+
+.profile-list
+
+.search-bar label {
+  align-content: start;
+  align-items: center;
+  display: flex;
+  gap: var(--standard-gap);
+}
+
+.search-bar button {
+  display: flex;
+  gap: calc(var(--standard-gap) / 2);
 }
 
 textarea {
@@ -441,16 +456,16 @@ textarea.post {
   padding: 0.5rem 1rem;
 }
 
-.wideScreenOnly {
+.wide-screen-only {
   display: none;
 }
 
 @media (min-width: 520px) {
-  main.twoColumn {
+  main.two-column {
     grid-template-columns: 1fr 1fr;
   }
 
-  .wideScreenOnly {
+  .wide-screen-only {
     display: block;
   }
 }

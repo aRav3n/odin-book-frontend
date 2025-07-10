@@ -4,7 +4,7 @@ export default function ErrorMessage({ errorArray }) {
   if (!errorArray) return null;
 
   return (
-    <div className="errorMessage">
+    <div className="error-message">
       <p>
         <strong>There was an error with that:</strong>
       </p>

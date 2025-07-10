@@ -94,11 +94,11 @@ export default function LogInSignUp({ user, setUser, setProfile }) {
 
   return (
     <>
-      <main className="twoColumn">
+      <main className="two-column">
         <div>
           <div>
             <h1>Odin Book</h1>
-            <p className="wideScreenOnly">
+            <p className="wide-screen-only">
               {textSnippet} now and start connecting with your friends, or make
               some new ones!
             </p>

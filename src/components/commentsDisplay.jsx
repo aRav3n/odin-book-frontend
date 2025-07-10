@@ -46,7 +46,7 @@ export default function CommentsDisplay({
         profileId={profileId}
         parentIsPost={parentIsPost}
       />
-      <div className="childComments">
+      <div className="child-comments">
         <ErrorMessage errorArray={errorArray} />
         {comments.length === 0 ? (
           <p>There are currently no comments, be the first!</p>

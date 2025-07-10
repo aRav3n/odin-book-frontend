@@ -8,13 +8,14 @@ import {
 } from "./functions/localStorage";
 
 import "./index.css";
+import AddFriendsPage from "./pages/addFriends";
 import LandingPage from "./pages/home";
 import ErrorPage from "./pages/errorPage";
 import Footer from "./components/footer";
 import Header from "./components/header";
 import NewPost from "./pages/newPost";
-import SideMenu from "./components/sidebar";
 import ProfilePage from "./pages/profilePage";
+import SideMenu from "./components/sidebar";
 
 function Layout({ user, profile, setProfile }) {
   return (
@@ -74,6 +75,10 @@ function TopLevel() {
               user={user}
             />
           ),
+        },
+        {
+          path: "friends/add",
+          element: <AddFriendsPage />,
         },
       ],
       errorElement: (

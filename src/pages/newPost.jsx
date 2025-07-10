@@ -37,7 +37,7 @@ export default function NewPost({ profile, setProfile, user }) {
   }
 
   return (
-    <main className="singleColumn">
+    <main className="single-column">
       <ErrorMessage errorArray={errorArray} />
       <form>
         <textarea
