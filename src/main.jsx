@@ -5,14 +5,18 @@ import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import {
   readProfileLocalStorage,
   readUserLocalStorage,
+  updateProfileLocalStorage,
 } from "./functions/localStorage";
+import { readProfile } from "./functions/apiCommunication";
 
 import "./index.css";
 import AddFriendsPage from "./pages/addFriends";
 import LandingPage from "./pages/home";
 import ErrorPage from "./pages/errorPage";
 import Footer from "./components/footer";
+import Friends from "./pages/friends";
 import Header from "./components/header";
+import ManageAccount from "./pages/manageAccount";
 import NewPost from "./pages/newPost";
 import ProfilePage from "./pages/profilePage";
 import SideMenu from "./components/sidebar";
@@ -36,13 +40,21 @@ function TopLevel() {
 
   // search local storage for user and profile on page load
   useEffect(() => {
-    if (!profile) {
-      readProfileLocalStorage(setProfile);
-    }
-    if (!user) {
-      readUserLocalStorage(setUser);
+    if (!profile || !user) {
+      const localProfile = readProfileLocalStorage(setProfile);
+      const localUser = readUserLocalStorage(setUser);
+      if (localProfile && localUser) {
+        (async () => {
+          await readProfile(localProfile.id, localUser.token, setProfile);
+        })();
+      }
     }
   }, []);
+
+  useEffect(() => {
+    if (profile) {
+    }
+  }, [profile]);
 
   const router = createBrowserRouter([
     {
@@ -77,8 +89,16 @@ function TopLevel() {
           ),
         },
         {
+          path: "friends",
+          element: <Friends />,
+        },
+        {
           path: "friends/add",
           element: <AddFriendsPage />,
+        },
+        {
+          path: "manage-account",
+          element: <ManageAccount />,
         },
       ],
       errorElement: (

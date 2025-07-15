@@ -5,6 +5,7 @@ export default function CommentButton({
   displayComments,
   setDisplayComments,
   commentCount,
+  setParentIdForUpdate,
 }) {
   return (
     <button

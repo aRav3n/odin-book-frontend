@@ -40,15 +40,17 @@ export default function NewPost({ profile, setProfile, user }) {
     <main className="single-column">
       <ErrorMessage errorArray={errorArray} />
       <form>
-        <textarea
-          className="post"
-          name="text"
-          id="text"
-          value={text}
-          onChange={(e) => {
-            setText(e.target.value);
-          }}
-        ></textarea>
+        <label htmlFor="text">
+          <textarea
+            className="post"
+            name="text"
+            id="text"
+            value={text}
+            onChange={(e) => {
+              setText(e.target.value);
+            }}
+          ></textarea>
+        </label>
         <button type="button" onClick={handleClick}>
           Submit Post
         </button>

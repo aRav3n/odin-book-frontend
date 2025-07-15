@@ -56,6 +56,7 @@ export default function ProfileCreationPage({ user, setProfile }) {
       <div>
         <form>
           <label htmlFor="name">
+            Name
             <input
               type="text"
               name="name"
@@ -66,9 +67,9 @@ export default function ProfileCreationPage({ user, setProfile }) {
                 setName(e.target.value);
               }}
             />
-            Name
           </label>
           <label htmlFor="website">
+            My Website <small>(optional)</small>
             <input
               type="url"
               name="website"
@@ -78,9 +79,9 @@ export default function ProfileCreationPage({ user, setProfile }) {
                 setWebsite(e.target.value);
               }}
             />
-            My Website
           </label>
           <label htmlFor="about">
+            About Me <small>(optional)</small>
             <textarea
               name="about"
               id="about"
@@ -89,7 +90,6 @@ export default function ProfileCreationPage({ user, setProfile }) {
                 setAbout(e.target.value);
               }}
             ></textarea>
-            About Me
           </label>
           <button type="button" onClick={handleClick}>
             Create My Profile!

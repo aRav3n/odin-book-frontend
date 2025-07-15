@@ -9,6 +9,7 @@ export default function CommentBox({
   token,
   profileId,
   parentIsPost,
+  setNeedToUpdateComments,
 }) {
   if (!displayComments) {
     return null;
@@ -25,13 +26,15 @@ export default function CommentBox({
 
   function handleComment() {
     (async () => {
-      const response = await createComment(
+      await createComment(
         token,
         parentObject.id,
         profileId,
         commentText,
         parentIsPost
       );
+
+      setNeedToUpdateComments(true)
     })();
     setCommentText("");
     setCommenting(false);

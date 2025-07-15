@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 
-import { readProfile, readRecentPosts } from "../functions/apiCommunication";
+import {
+  readProfile,
+  readRecentPosts,
+  readSinglePost,
+} from "../functions/apiCommunication";
 
 import CommentButton from "./commentButton";
 import CommentsDisplay from "./commentsDisplay";
@@ -44,13 +48,20 @@ function formatDate(dateString) {
   return `${day} at ${time}`;
 }
 
-function PostDisplay({ postObject, token, profileId, profileName }) {
+function PostDisplay({
+  postObject,
+  token,
+  profileId,
+  profileName,
+  setPostIdToUpdate,
+}) {
   const [showFull, setShowFull] = useState(false);
   const [displayComments, setDisplayComments] = useState(false);
 
   const name = postObject.Profile?.name ? postObject.Profile.name : profileName;
   const text = postObject.text;
   const date = formatDate(postObject.createdAt);
+  const avatarUrl = postObject.Profile.avatarUrl;
 
   useEffect(() => {
     if (!showFull) {
@@ -74,7 +85,10 @@ function PostDisplay({ postObject, token, profileId, profileName }) {
         }}
       >
         <div>
-          <div className="name">{name}</div>
+          <div className="name">
+            <img src={avatarUrl} alt="avatar" className="avatar-medium" />{" "}
+            {name}
+          </div>
           {showFull ? <div className="date">{date}</div> : null}
         </div>
         <div className="text">{text}</div>
@@ -117,6 +131,7 @@ export default function GeneralPostsDisplay({
 }) {
   const [errorArray, setErrorArray] = useState(null);
   const [posts, setPosts] = useState([]);
+  const [postIdToUpdate, setPostIdToUpdate] = useState(null);
 
   function updatePosts() {
     (async () => {
@@ -131,12 +146,48 @@ export default function GeneralPostsDisplay({
   }
 
   useEffect(() => {
+    if (!posts) {
+      return null;
+    }
+  }, []);
+
+  function updateSinglePost(id) {
+    (async () => {
+      try {
+        const indexOfPost = posts.findIndex((item) => item.id === id);
+        const postsBeforeThisPost = posts.slice(0, indexOfPost);
+        const postsAfterThisPost = posts.slice(indexOfPost + 1);
+        const refreshedPost = await readSinglePost(token, id);
+
+        const newArray = postsBeforeThisPost.concat(
+          [refreshedPost],
+          postsAfterThisPost
+        );
+        setPosts(newArray);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }
+
+  useEffect(() => {
     if ((!posts || posts.length === 0) && setPosts !== null) {
       updatePosts();
     }
   }, []);
 
-  if (posts.length === 0) {
+  useEffect(() => {
+    if (postIdToUpdate) {
+      updateSinglePost(postIdToUpdate);
+      setPostIdToUpdate(null);
+    }
+  }, postIdToUpdate);
+
+  if (!posts || isNaN(posts.length)) {
+    return null;
+  }
+
+  if (posts && posts.length === 0) {
     return (
       <>
         <p className="create-post-message">
@@ -152,17 +203,20 @@ export default function GeneralPostsDisplay({
       <p>To see more detail click on a post to expand it.</p>
       <ErrorMessage errorArray={errorArray} />
 
-      {posts.map((post) => {
-        return (
-          <PostDisplay
-            postObject={post}
-            key={post.id}
-            token={token}
-            profileId={profileId}
-            profileName={profileObject?.name || null}
-          />
-        );
-      })}
+      {posts
+        ? posts.map((post) => {
+            return (
+              <PostDisplay
+                postObject={post}
+                key={post.id}
+                token={token}
+                profileId={profileId}
+                profileName={profileObject?.name || null}
+                setPostIdToUpdate={setPostIdToUpdate}
+              />
+            );
+          })
+        : null}
     </div>
   );
 }

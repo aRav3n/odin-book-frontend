@@ -36,12 +36,9 @@ export default function Header({ user, profile, setProfile }) {
       <button
         type="button"
         onClick={() => {
-          navigate("/newPost");
+          navigate("/manage-account");
         }}
       >
-        <SquarePlus className="icon" /> New Post
-      </button>
-      <button type="button">
         <UserCog className="icon" />
       </button>
     </header>

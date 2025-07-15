@@ -2,12 +2,14 @@ import { useState, useEffect } from "react";
 import {
   CirclePlus,
   Clock,
-  Contact,
+  SquarePlus,
   User,
   UserSearch,
   Users,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+
+import { readProfileLocalStorage } from "../functions/localStorage";
 
 function ToggleDisplayButton({ showMenu, setShowMenu, useToggle }) {
   if (!useToggle) {
@@ -26,13 +28,24 @@ function ToggleDisplayButton({ showMenu, setShowMenu, useToggle }) {
   );
 }
 
+function MyProfileIcon({ profile }) {
+  if (!profile) {
+    return null;
+  }
+
+  return (
+    <img className="avatar-small" src={profile.avatarUrl} alt="profile image" />
+  );
+}
+
 function SidebarButton({
   useToggle,
   showMenu,
   setShowMenu,
   text,
-  LucideIcon,
+  IconComponentName,
   urlExtension,
+  profile,
 }) {
   const [tabIndex, setTabIndex] = useState("-1");
   const navigate = useNavigate();
@@ -62,7 +75,7 @@ function SidebarButton({
         tabIndex={tabIndex}
         onClick={handleSidebarButtonClick}
       >
-        <LucideIcon />
+        <IconComponentName profile={profile} />
         {text}
       </button>
       <hr />
@@ -77,21 +90,8 @@ function FindFriendsButton({ useToggle, showMenu, setShowMenu }) {
       showMenu={showMenu}
       setShowMenu={setShowMenu}
       text={"Add a Friend"}
-      LucideIcon={UserSearch}
+      IconComponentName={UserSearch}
       urlExtension={"friends/add"}
-    />
-  );
-}
-
-function FriendPostsButton({ useToggle, showMenu, setShowMenu }) {
-  return (
-    <SidebarButton
-      useToggle={useToggle}
-      showMenu={showMenu}
-      setShowMenu={setShowMenu}
-      text={"Friends Posts"}
-      LucideIcon={Contact}
-      urlExtension={"friends/posts"}
     />
   );
 }
@@ -103,7 +103,7 @@ function FriendsButton({ useToggle, showMenu, setShowMenu }) {
       showMenu={showMenu}
       setShowMenu={setShowMenu}
       text={"My Friends"}
-      LucideIcon={Users}
+      IconComponentName={Users}
       urlExtension={"friends"}
     />
   );
@@ -118,7 +118,23 @@ function MyProfileButton({ useToggle, showMenu, setShowMenu, profile }) {
       showMenu={showMenu}
       setShowMenu={setShowMenu}
       text={"My Profile"}
-      LucideIcon={User}
+      IconComponentName={MyProfileIcon}
+      urlExtension={urlExtension}
+      profile={profile}
+    />
+  );
+}
+
+function NewPostButton({ useToggle, showMenu, setShowMenu, profile }) {
+  const urlExtension = "newPost";
+
+  return (
+    <SidebarButton
+      useToggle={useToggle}
+      showMenu={showMenu}
+      setShowMenu={setShowMenu}
+      text={"New Post"}
+      IconComponentName={SquarePlus}
       urlExtension={urlExtension}
     />
   );
@@ -131,7 +147,7 @@ function RecentPostsButton({ useToggle, showMenu, setShowMenu }) {
       showMenu={showMenu}
       setShowMenu={setShowMenu}
       text={"Recent Posts"}
-      LucideIcon={Clock}
+      IconComponentName={Clock}
       urlExtension={"/"}
     />
   );
@@ -197,17 +213,18 @@ export default function SideMenu({ profile }) {
         setShowMenu={setShowMenu}
         profile={profile}
       />
+      <NewPostButton
+        useToggle={useToggle}
+        showMenu={showMenu}
+        setShowMenu={setShowMenu}
+        profile={profile}
+      />
       <FindFriendsButton
         useToggle={useToggle}
         showMenu={showMenu}
         setShowMenu={setShowMenu}
       />
       <FriendsButton
-        useToggle={useToggle}
-        showMenu={showMenu}
-        setShowMenu={setShowMenu}
-      />
-      <FriendPostsButton
         useToggle={useToggle}
         showMenu={showMenu}
         setShowMenu={setShowMenu}

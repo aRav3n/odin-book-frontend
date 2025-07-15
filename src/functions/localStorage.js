@@ -1,8 +1,6 @@
 // internal use functions
 function createLocalStorage(key, object, setState) {
-  if (!localStorage.getItem(key)) {
-    localStorage.setItem(key, JSON.stringify(object));
-  }
+  localStorage.setItem(key, JSON.stringify(object));
   setState(object);
 }
 function readLocalStorage(key, setState) {

@@ -19,23 +19,29 @@ export default function CommentsDisplay({
 
   const [comments, setComments] = useState([]);
   const [errorArray, setErrorArray] = useState(null);
+  const [needToUpdateComments, setNeedToUpdateComments] = useState(false);
   const parentId = parentObject.id;
 
-  async function updateComments() {
-    const response = await readComments(token, parentId, parentIsPost);
+  function updateComments() {
+    (async () => {
+      const response = await readComments(token, parentId, parentIsPost);
 
-    if (response.errors) {
-      setErrorArray(response.errors);
-    } else {
-      setComments(response);
-    }
+      if (response.errors) {
+        setErrorArray(response.errors);
+      } else {
+        setComments(response);
+      }
+    })();
   }
 
   useEffect(() => {
-    (async () => {
-      await updateComments();
-    })();
-  }, []);
+    if (comments.length === 0 || needToUpdateComments) {
+      updateComments();
+      if (needToUpdateComments) {
+        setNeedToUpdateComments(false);
+      }
+    }
+  }, [needToUpdateComments]);
 
   return (
     <>
@@ -45,6 +51,7 @@ export default function CommentsDisplay({
         token={token}
         profileId={profileId}
         parentIsPost={parentIsPost}
+        setNeedToUpdateComments={setNeedToUpdateComments}
       />
       <div className="child-comments">
         <ErrorMessage errorArray={errorArray} />
@@ -57,6 +64,7 @@ export default function CommentsDisplay({
                 comment={comment}
                 token={token}
                 profileId={profileId}
+                setNeedToUpdateComments={setNeedToUpdateComments}
                 key={`comment-${comment.id}`}
               />
             );

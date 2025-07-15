@@ -19,6 +19,8 @@ function ConfirmPassword({
 
   return (
     <label htmlFor="confirmPassword">
+      Confirm Password
+      <small>Must match password</small>
       <input
         required
         type="password"
@@ -29,7 +31,6 @@ function ConfirmPassword({
           setConfirmPassword(e.target.value);
         }}
       />
-      Confirm Password
     </label>
   );
 }
@@ -47,9 +48,9 @@ function SignupSuccess({ signedUp }) {
 }
 
 export default function LogInSignUp({ user, setUser, setProfile }) {
-  const [email, setEmail] = useState("c@b.com");
-  const [password, setPassword] = useState("123456");
-  const [confirmPassword, setConfirmPassword] = useState("123456");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [errorArray, setErrorArray] = useState(null);
   const [signedUp, setSignedUp] = useState(false);
 
@@ -77,6 +78,8 @@ export default function LogInSignUp({ user, setUser, setProfile }) {
       // if there are errors display them
       if (info.errors) {
         setErrorArray(info.errors);
+      } else if (info.message === "Network error") {
+        setErrorArray([info]);
       } else if (!alreadyMember) {
         setErrorArray(null);
         setSignedUp(true);
@@ -112,6 +115,7 @@ export default function LogInSignUp({ user, setUser, setProfile }) {
 
             <form>
               <label htmlFor="email">
+                {alreadyMember ? "Email" : "Email (required)"}
                 <input
                   required
                   type="text"
@@ -122,9 +126,11 @@ export default function LogInSignUp({ user, setUser, setProfile }) {
                     setEmail(e.target.value);
                   }}
                 />
-                Email
               </label>
               <label htmlFor="password">
+                Password
+                {alreadyMember ? null :  <small>Must be 6-16 characters</small>}
+
                 <input
                   required
                   type="password"
@@ -135,7 +141,6 @@ export default function LogInSignUp({ user, setUser, setProfile }) {
                     setPassword(e.target.value);
                   }}
                 />
-                Password
               </label>
               <ConfirmPassword
                 confirmPassword={confirmPassword}

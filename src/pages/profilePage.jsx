@@ -5,13 +5,21 @@ import {
   readProfileLocalStorage,
   readUserLocalStorage,
 } from "../functions/localStorage";
+import { readProfile } from "../functions/apiCommunication";
 
 import GeneralPostsDisplay from "../components/postsDisplay";
 
 export default function ProfilePage() {
+  const [aboutMe, setAboutMe] = useState(
+    "This profile currently have an about me."
+  );
   const [heading, setHeading] = useState("Posts");
   const [profile, setProfile] = useState(null);
+  const [profileToDisplay, setProfileToDisplay] = useState(null);
   const [user, setUser] = useState(null);
+  const [website, setWebsite] = useState(
+    "This profile currently doesn't have a website."
+  );
   const { profileId } = useParams();
 
   const navigate = useNavigate();
@@ -22,9 +30,33 @@ export default function ProfilePage() {
     if (!localUser || !localProfile) {
       navigate("/");
     } else {
-      setHeading(`${localProfile.name}'s Posts`);
+      (async () => {
+        await readProfile(profileId, localUser.token, setProfileToDisplay);
+      })();
     }
   }, []);
+
+  useEffect(() => {
+    if (profileToDisplay) {
+      setHeading(`${profileToDisplay.name}'s Posts`);
+      const newAbout =
+        profileToDisplay.about.length > 0
+          ? profileToDisplay.about
+          : `${profileToDisplay.name} doesn't have an about me.`;
+      const newWebsite =
+        profileToDisplay.website.length > 0
+          ? profileToDisplay.website
+          : `${profileToDisplay.name} doesn't have a website listed.`;
+      setAboutMe(newAbout);
+      setWebsite(newWebsite);
+    }
+  }, [profileToDisplay]);
+
+  useEffect(() => {
+    if (profileToDisplay && profileId !== profileToDisplay.id) {
+      window.location.reload();
+    }
+  }, [profileId]);
 
   if (!profile || !user) {
     return null;
@@ -33,8 +65,24 @@ export default function ProfilePage() {
   return (
     <main className="profile-page">
       <h1>{heading}</h1>
+      <div className="two-column">
+        <div>
+          <strong>
+            {profileToDisplay ? `About ${profileToDisplay.name}:` : "About Me:"}{" "}
+          </strong>
+          <p>{aboutMe}</p>
+        </div>
+        <div>
+          <strong>
+            {profileToDisplay
+              ? `${profileToDisplay.name}'s website:`
+              : "My Website:"}{" "}
+          </strong>
+          <p>{website}</p>
+        </div>
+      </div>
       <GeneralPostsDisplay
-        profileObject={profile}
+        profileObject={profileToDisplay}
         profileId={profile.id}
         profileIdToDisplay={profileId}
         token={user.token}
