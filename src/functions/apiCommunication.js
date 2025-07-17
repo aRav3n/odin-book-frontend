@@ -6,7 +6,7 @@ import {
 } from "./localStorage";
 
 async function getJsonResponse(urlExtension, method, token, bodyObject) {
-  const apiUrl = "http://localhost:3000";
+  const apiUrl = "https://odin-book-backend.onrender.com";
 
   const url = `${apiUrl}${urlExtension}`;
   const fetchObject = {
