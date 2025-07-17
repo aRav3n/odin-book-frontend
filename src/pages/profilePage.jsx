@@ -38,7 +38,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     if (profileToDisplay) {
-      setHeading(`${profileToDisplay.name}'s Posts`);
+      setHeading(`${profileToDisplay.name}`);
       const newAbout =
         profileToDisplay.about.length > 0
           ? profileToDisplay.about
@@ -64,7 +64,16 @@ export default function ProfilePage() {
 
   return (
     <main className="profile-page">
-      <h1>{heading}</h1>
+      <h1>
+        {profileToDisplay ? (
+          <img
+            src={profileToDisplay.avatarUrl}
+            alt="avatar"
+            className="avatar-large"
+          />
+        ) : null}
+        {heading}
+      </h1>
       <div className="two-column">
         <div>
           <strong>

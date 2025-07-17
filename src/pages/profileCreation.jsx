@@ -7,16 +7,18 @@ import {
 import ErrorMessage from "../components/errorMessage";
 
 export default function ProfileCreationPage({ user, setProfile }) {
+  const [about, setAbout] = useState("");
+  const [avatarUrl, setAvatarUrl] = useState("");
+  const [errorArray, setErrorArray] = useState(null);
   const [name, setName] = useState("");
   const [website, setWebsite] = useState("");
-  const [about, setAbout] = useState("");
-  const [errorArray, setErrorArray] = useState(null);
 
   function handleClick() {
     (async () => {
       const response = await createProfile(
         name,
         about,
+        avatarUrl,
         website,
         user.token,
         setProfile
@@ -65,6 +67,19 @@ export default function ProfileCreationPage({ user, setProfile }) {
               value={name}
               onChange={(e) => {
                 setName(e.target.value);
+              }}
+            />
+          </label>
+          <label htmlFor="avatarUrl">
+            Profile Picture URL
+            <small>(optional)</small>
+            <input
+              type="url"
+              name="avatarUrl"
+              id="avatarUrl"
+              value={avatarUrl}
+              onChange={(e) => {
+                setAvatarUrl(e.target.value);
               }}
             />
           </label>

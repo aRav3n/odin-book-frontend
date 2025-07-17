@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 import CommentsDisplay from "./commentsDisplay";
 import LikeButton from "./likeButton";
@@ -12,6 +13,7 @@ export default function SingleCommentDisplay({
 }) {
   const [displayReplies, setDisplayReplies] = useState(false);
   const [commentCount, setCommentCount] = useState(comment._count.replies);
+  const url = `/profile/${comment.Profile.id}`;
 
   return (
     <div>
@@ -21,7 +23,7 @@ export default function SingleCommentDisplay({
           alt="avatar"
           className="avatar-medium"
         />{" "}
-        {comment.Profile.name}
+        <Link to={url}>{comment.Profile.name}</Link>
       </div>
       <div className="text">{comment.text}</div>
       <div className="buttons">

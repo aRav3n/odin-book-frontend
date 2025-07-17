@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 import {
   readProfile,
@@ -58,10 +59,11 @@ function PostDisplay({
   const [showFull, setShowFull] = useState(false);
   const [displayComments, setDisplayComments] = useState(false);
 
+  const avatarUrl = postObject.Profile.avatarUrl;
+  const date = formatDate(postObject.createdAt);
   const name = postObject.Profile?.name ? postObject.Profile.name : profileName;
   const text = postObject.text;
-  const date = formatDate(postObject.createdAt);
-  const avatarUrl = postObject.Profile.avatarUrl;
+  const url = `/profile/${postObject.Profile.id}`;
 
   useEffect(() => {
     if (!showFull) {
@@ -87,7 +89,7 @@ function PostDisplay({
         <div>
           <div className="name">
             <img src={avatarUrl} alt="avatar" className="avatar-medium" />{" "}
-            {name}
+            <Link to={url}>{name}</Link>
           </div>
           {showFull ? <div className="date">{date}</div> : null}
         </div>

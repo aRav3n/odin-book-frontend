@@ -2,6 +2,7 @@
 import {
   createProfileLocalStorage,
   createUserLocalStorage,
+  updateProfileLocalStorage,
 } from "./localStorage";
 
 async function getJsonResponse(urlExtension, method, token, bodyObject) {
@@ -202,8 +203,8 @@ async function readRecentPosts(token, startNumber) {
 async function readSinglePost(token, postId) {}
 
 // profile functions
-async function createProfile(name, about, website, token, setState) {
-  const bodyObject = { name, about, website };
+async function createProfile(name, about, avatarUrl, website, token, setState) {
+  const bodyObject = { name, about, website, avatarUrl };
   const method = "POST";
   const urlExtension = "/profile";
 
@@ -276,6 +277,34 @@ async function readProfileOfUser(token, setState) {
   return response;
 }
 
+async function updateProfile(
+  name,
+  about,
+  avatarUrl,
+  website,
+  profileId,
+  token,
+  setState
+) {
+  const bodyObject = { id: profileId, name, about, website, avatarUrl };
+  const method = "PUT";
+  const urlExtension = `/profile/${profileId}`;
+
+  const response = await getJsonResponse(
+    urlExtension,
+    method,
+    token,
+    bodyObject
+  );
+
+  if (response.error) {
+    return response.data;
+  }
+
+  updateProfileLocalStorage(response, setState);
+  return response;
+}
+
 // user functions
 async function logUserIn(email, password, setState) {
   const bodyObject = { email, password };
@@ -293,6 +322,24 @@ async function logUserIn(email, password, setState) {
     return response.data;
   } else {
     createUserLocalStorage(response, setState);
+  }
+
+  return response;
+}
+
+async function logAnonUserIn(setProfile, setUser) {
+  const method = "GET";
+  const urlExtension = "/profile/anon";
+
+  const response = await getJsonResponse(urlExtension, method, null);
+
+  if (response.error) {
+    return response.data;
+  } else {
+    const user = response.user;
+    const profile = response.profile;
+    createProfileLocalStorage(profile, setProfile);
+    createUserLocalStorage(user, setUser);
   }
 
   return response;
@@ -341,8 +388,10 @@ export {
   readProfile,
   readProfileList,
   readProfileOfUser,
+  updateProfile,
 
   // user functions
+  logAnonUserIn,
   logUserIn,
   signupUser,
 };

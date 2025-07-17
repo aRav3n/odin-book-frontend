@@ -14,7 +14,8 @@ function updateLocalStorage(key, newObject, setState) {
   if (localStorage.getItem(key)) {
     localStorage.removeItem(key);
     localStorage.setItem(key, JSON.stringify(newObject));
-    setState(newObject);
+    setState ? setState(newObject) : null;
+    console.log("updated!")
   }
 }
 function deleteLocalStorage(key, setState) {

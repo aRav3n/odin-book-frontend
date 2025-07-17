@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import {
   readProfileOfUser,
-  signupUser,
+  logAnonUserIn,
   logUserIn,
+  signupUser,
 } from "../functions/apiCommunication";
+import { EyeOff } from "lucide-react";
 
 import ErrorMessage from "../components/errorMessage";
 import TopLogo from "../components/top_logo";
@@ -62,11 +64,17 @@ export default function LogInSignUp({ user, setUser, setProfile }) {
     ? " create a new account."
     : " log in to your existing account.";
 
-  useEffect(() => {
-    if (user) {
-      console.log("user set");
-    }
-  }, [user]);
+  function handleAnonClick() {
+    (async () => {
+      const response = await logAnonUserIn(setProfile, setUser);
+
+      if (response.errors) {
+        setErrorArray(response.errors);
+      } else if (response.message === "Network error") {
+        setErrorArray([response]);
+      }
+    })();
+  }
 
   function handleClick() {
     (async () => {
@@ -113,7 +121,7 @@ export default function LogInSignUp({ user, setUser, setProfile }) {
             <SignupSuccess signedUp={signedUp} />
             <TopLogo />
 
-            <form>
+            <form className="login-signup-form">
               <label htmlFor="email">
                 {alreadyMember ? "Email" : "Email (required)"}
                 <input
@@ -129,8 +137,7 @@ export default function LogInSignUp({ user, setUser, setProfile }) {
               </label>
               <label htmlFor="password">
                 Password
-                {alreadyMember ? null :  <small>Must be 6-16 characters</small>}
-
+                {alreadyMember ? null : <small>Must be 6-16 characters</small>}
                 <input
                   required
                   type="password"
@@ -151,7 +158,6 @@ export default function LogInSignUp({ user, setUser, setProfile }) {
                 {buttonText}
               </button>
             </form>
-            <hr />
             <p>
               Or
               <a
@@ -168,6 +174,11 @@ export default function LogInSignUp({ user, setUser, setProfile }) {
                 {switchText}
               </a>
             </p>
+            <hr className="wide-screen-only" />
+            <p className="wide-screen-only">Otherwise:</p>
+            <button type="button" onClick={handleAnonClick}>
+              <EyeOff /> Browse Anonymously
+            </button>
           </div>
         </div>
       </main>

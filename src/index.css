@@ -71,6 +71,13 @@ a:hover {
   width: min(80vmin, 400px);
 }
 
+.avatar-large {
+  border: 1px solid var(--text-default);
+  border-radius: 50%;
+  height: 4rem;
+  width: 4rem;
+}
+
 .avatar-medium {
   border: 1px solid var(--text-default);
   border-radius: 50%;
@@ -96,6 +103,7 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
+  margin: 0 auto;
   padding: 0.6em 1.2em;
   place-items: center;
   transition: border-color 0.25s;
@@ -187,6 +195,14 @@ div.child-comments button svg {
   padding: 0;
 }
 
+h1 {
+  align-content: center;
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
 li {
   text-align: left;
 }
@@ -198,9 +214,10 @@ footer {
 
 form {
   display: grid;
-  gap: 1vh;
+  gap: calc(2 * var(--standard-gap));
   justify-content: center;
   justify-items: start;
+  justify-self: center;
 }
 
 form * {
@@ -218,7 +235,6 @@ header {
   background-color: var(--item-bg-color);
   display: flex;
   justify-content: space-between;
-  justify-items: center;
   padding: 0.25rem 0.5rem;
 }
 
@@ -228,6 +244,7 @@ header > button {
   border-radius: 0.2rem;
   display: flex;
   gap: 0.25rem;
+  margin: 0 0;
   padding: 0.1rem 0.2rem;
 }
 
@@ -241,9 +258,18 @@ header img {
   color: var(--text-default);
 }
 
+img {
+  object-fit: cover;
+}
+
 label {
   display: grid;
   justify-items: start;
+}
+
+.login-signup-form {
+  gap: 1rem;
+  justify-items: center;
 }
 
 main {
@@ -462,6 +488,10 @@ textarea#text {
   width: min(80vw, 500px);
 }
 
+.two-column {
+  gap: calc(2 * var(--standard-gap));
+}
+
 .two-column > div,
 div.two-column {
   display: grid;
@@ -515,7 +545,18 @@ div.two-column {
   display: none;
 }
 
+.wide-screen-only + button {
+  align-content: center;
+  align-items: center;
+  display: flex;
+  gap: var(--standard-gap);
+}
+
 @media (min-width: 520px) {
+  .two-column {
+    gap: 0;
+  }
+
   main.two-column,
   div.two-column {
     grid-template-columns: 1fr 1fr;
