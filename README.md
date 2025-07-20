@@ -6,3 +6,6 @@
 
 ## Dependencies
 - [![Lucide](https://lucide.dev/logo.light.svg) Lucide](https://lucide.dev/)
+
+## Screenshots
+![Screenshot of the website](./public/screenshot.png)
