@@ -3,10 +3,40 @@
 ## Table of Contents
 
 - [Description](#description)
+- [Installation Instructions](#installation-instructions)
 - [Usage and Screenshots](#usage-and-screenshots)
 - [Technologies Used](#technologies-used)
 - [Dependencies and Credits](#dependencies-and-credits)
 - [Project Structure](#project-structure)
+
+## Installation Instructions
+
+1. Clone or fork this repo
+2. cd into the project root directory (where the README.md file is located)
+3. Run the following in your terminal
+    - ``` bash
+      npm init -y
+ 
+      npm install lucide-react react
+      npm install react-dom react-router-dom uuid
+ 
+      npm install @eslint/js @types/react --save-dev
+      npm install @types/react-dom @vitejs/plugin-react --save-dev
+      npm install eslint eslint-config-prettier --save-dev
+      npm install eslint-plugin-react-hooks eslint-plugin-react-refresh --save-dev
+      npm install globals vite --save-dev
+      ```
+4. If running the API locally
+   1. Find the URL
+       - For a Node.js / Express app this would be in: *backend_folder/app.js* at the bottom
+   2. Update the API URL
+        -  ``` bash
+           code src/functions/apiCommunication.js 
+           ```
+        - Update `const apiUrl` with the new URL. It is likely http://localhost:3000
+          - Be sure to remove the trailing "/" if there is one
+5. `npm run dev` then navigate to the url displayed in the terminal: `➜  Local:   http://localhost:5173/`
+6. `^` + `c` will end the process
 
 ## Description
 
