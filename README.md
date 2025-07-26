@@ -9,6 +9,10 @@
 - [Dependencies and Credits](#dependencies-and-credits)
 - [Project Structure](#project-structure)
 
+## Description
+
+This is the frontend for my social media app built for [The Odin Project](https://www.theodinproject.com) curriculum. It is built using Vite and React.
+
 ## Installation Instructions
 
 1. Clone or fork this repo
@@ -37,10 +41,6 @@
           - Be sure to remove the trailing "/" if there is one
 5. `npm run dev` then navigate to the url displayed in the terminal: `➜  Local:   http://localhost:5173/`
 6. `^` + `c` will end the process
-
-## Description
-
-This is the frontend for my social media app built for [The Odin Project](https://www.theodinproject.com) curriculum. It is built using Vite and React.
 
 ## Usage and Screenshots
 
