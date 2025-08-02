@@ -7,7 +7,7 @@ import {
   readUserLocalStorage,
   updateProfileLocalStorage,
 } from "./functions/localStorage";
-import { readProfile } from "./functions/apiCommunication";
+import { readProfile, wakeUpDatabase } from "./functions/apiCommunication";
 
 import "./index.css";
 import AddFriendsPage from "./pages/addFriends";
@@ -37,9 +37,18 @@ function Layout({ user, profile, setProfile }) {
 function TopLevel() {
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
+  const [databaseAwake, setDatabaseAwake] = useState(false);
 
   // search local storage for user and profile on page load
   useEffect(() => {
+    if (!databaseAwake) {
+      (async () => {
+        const response = await wakeUpDatabase();
+        console.log(response);
+        setDatabaseAwake(true);
+      })();
+    }
+
     if (!profile || !user) {
       const localProfile = readProfileLocalStorage(setProfile);
       const localUser = readUserLocalStorage(setUser);

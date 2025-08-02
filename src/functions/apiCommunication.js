@@ -364,6 +364,20 @@ async function signupUser(email, password, confirmPassword) {
   return response;
 }
 
+// wakeup function
+async function wakeUpDatabase() {
+  const method = "GET";
+  const urlExtension = "";
+
+  const response = await getJsonResponse(urlExtension, method, null);
+
+  if (response.error) {
+    return response.data;
+  }
+
+  return response;
+}
+
 export {
   // comment functions
   createComment,
@@ -394,4 +408,7 @@ export {
   logAnonUserIn,
   logUserIn,
   signupUser,
+
+  // wakeup functions
+  wakeUpDatabase,
 };
