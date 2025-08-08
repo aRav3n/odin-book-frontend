@@ -20,15 +20,7 @@ This is the frontend for my social media app built for [The Odin Project](https:
 3. Run the following in your terminal
     - ``` bash
       npm init -y
- 
-      npm install lucide-react react
-      npm install react-dom react-router-dom uuid
- 
-      npm install @eslint/js @types/react --save-dev
-      npm install @types/react-dom @vitejs/plugin-react --save-dev
-      npm install eslint eslint-config-prettier --save-dev
-      npm install eslint-plugin-react-hooks eslint-plugin-react-refresh --save-dev
-      npm install globals vite --save-dev
+      npm install
       ```
 4. If running the API locally
    1. Find the URL
