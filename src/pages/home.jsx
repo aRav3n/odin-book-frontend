@@ -8,7 +8,13 @@ import GeneralPostsDisplay from "../components/postsDisplay";
 import LogInSignUp from "./logInSignUp";
 import ProfileCreationPage from "./profileCreation";
 
-export default function LandingPage({ user, setUser, profile, setProfile }) {
+export default function LandingPage({
+  databaseAwake,
+  profile,
+  setProfile,
+  user,
+  setUser,
+}) {
   const [loggedIn, setLoggedIn] = useState(false);
 
   // actions to be performed when user changes
@@ -27,7 +33,12 @@ export default function LandingPage({ user, setUser, profile, setProfile }) {
 
   if (!user) {
     return (
-      <LogInSignUp user={user} setUser={setUser} setProfile={setProfile} />
+      <LogInSignUp
+        databaseAwake={databaseAwake}
+        setProfile={setProfile}
+        user={user}
+        setUser={setUser}
+      />
     );
   }
   if (user && !profile) {

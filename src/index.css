@@ -541,6 +541,13 @@ div.two-column {
   padding: 0.5rem 1rem;
 }
 
+.wait-message {
+  background-color: var(--error-color);
+  border-radius: 0.25rem;
+  color: var(--text-default);
+  padding: 0.25rem 0.5rem;
+}
+
 .wide-screen-only {
   display: none;
 }

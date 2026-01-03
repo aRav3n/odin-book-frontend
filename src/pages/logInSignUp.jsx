@@ -49,7 +49,12 @@ function SignupSuccess({ signedUp }) {
   );
 }
 
-export default function LogInSignUp({ user, setUser, setProfile }) {
+export default function LogInSignUp({
+  databaseAwake,
+  setProfile,
+  user,
+  setUser,
+}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -154,31 +159,41 @@ export default function LogInSignUp({ user, setUser, setProfile }) {
                 setConfirmPassword={setConfirmPassword}
                 alreadyMember={alreadyMember}
               />
-              <button type="button" onClick={handleClick}>
-                {buttonText}
-              </button>
+              {databaseAwake ? (
+                <button type="button" onClick={handleClick}>
+                  {buttonText}
+                </button>
+              ) : (
+                <p className="wait-message">
+                  Please wait, the database is still waking up.
+                </p>
+              )}
             </form>
-            <p>
-              Or
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={handleMemberStatusSwitch}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    handleMemberStatusSwitch();
-                  }
-                }}
-                tabIndex="0"
-              >
-                {switchText}
-              </a>
-            </p>
-            <hr className="wide-screen-only" />
-            <p className="wide-screen-only">Otherwise:</p>
-            <button type="button" onClick={handleAnonClick}>
-              <EyeOff /> Browse Anonymously
-            </button>
+            {databaseAwake ? (
+              <>
+                <p>
+                  Or
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={handleMemberStatusSwitch}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        handleMemberStatusSwitch();
+                      }
+                    }}
+                    tabIndex="0"
+                  >
+                    {switchText}
+                  </a>
+                </p>
+                <hr className="wide-screen-only" />
+                <p className="wide-screen-only">Otherwise:</p>
+                <button type="button" onClick={handleAnonClick}>
+                  <EyeOff /> Browse Anonymously
+                </button>
+              </>
+            ) : null}
           </div>
         </div>
       </main>

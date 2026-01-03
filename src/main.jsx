@@ -74,10 +74,11 @@ function TopLevel() {
           index: true,
           element: (
             <LandingPage
-              user={user}
-              setUser={setUser}
+              databaseAwake={databaseAwake}
               profile={profile}
               setProfile={setProfile}
+              user={user}
+              setUser={setUser}
             />
           ),
         },
